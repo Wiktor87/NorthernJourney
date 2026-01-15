@@ -40,6 +40,38 @@ npm run preview
 
 The game will open at `http://localhost:5173/`
 
+### Deployment to GitHub Pages
+
+This project is configured for easy deployment to GitHub Pages.
+
+#### Manual Deployment
+
+To manually deploy to GitHub Pages:
+
+```bash
+npm run deploy
+```
+
+This will build the project and push it to the `gh-pages` branch.
+
+#### Automatic Deployment
+
+The project includes a GitHub Actions workflow that automatically builds and deploys to GitHub Pages on every push to the `main` branch.
+
+**To enable automatic deployment:**
+
+1. Go to your repository's Settings → Pages
+2. Under "Build and deployment", set:
+   - **Source**: Deploy from a branch
+   - **Branch**: `gh-pages`
+   - **Folder**: `/ (root)`
+3. Click Save
+
+After the first push to `main`, your game will be available at:
+`https://<username>.github.io/NorthernJourney/`
+
+**Note**: The first deployment may take a few minutes. Check the "Actions" tab to monitor the deployment progress.
+
 ## 🎮 How to Play
 
 1. **Start the Game**: The game begins with 5 villagers, 10 food, 5 wood, and 70 morale
