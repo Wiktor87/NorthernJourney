@@ -1,0 +1,27 @@
+/* Northern Journey - Main App Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  background: #0f2027;
+  color: #ecf0f1;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Remove default root styles that conflict */
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+

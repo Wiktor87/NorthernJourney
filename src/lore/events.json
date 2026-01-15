@@ -1,0 +1,121 @@
+{
+  "events": [
+    {
+      "id": "good_catch",
+      "title": "Abundant Catch",
+      "description": "The nets are overflowing! The fishermen have brought in a magnificent haul.",
+      "probability": 0.15,
+      "effects": {
+        "food": 3,
+        "morale": 1
+      }
+    },
+    {
+      "id": "storm",
+      "title": "Fierce Storm",
+      "description": "A terrible storm lashes the village. Work is disrupted and supplies are damaged.",
+      "probability": 0.12,
+      "effects": {
+        "food": -2,
+        "wood": -1,
+        "morale": -1
+      }
+    },
+    {
+      "id": "clear_forest",
+      "title": "Clear Day in the Forest",
+      "description": "Perfect weather for woodcutting. Your workers are efficient and spirits are high.",
+      "probability": 0.15,
+      "effects": {
+        "wood": 2,
+        "morale": 1
+      }
+    },
+    {
+      "id": "injury",
+      "title": "Work Accident",
+      "description": "A villager is injured while working. The village rallies to help, but work slows.",
+      "probability": 0.10,
+      "effects": {
+        "morale": -2
+      }
+    },
+    {
+      "id": "northern_lights",
+      "title": "Northern Lights",
+      "description": "The aurora dances across the sky. Your people take it as a good omen.",
+      "probability": 0.08,
+      "effects": {
+        "morale": 2
+      }
+    },
+    {
+      "id": "draugr_sighting",
+      "title": "Draugr Spotted",
+      "description": "The undead have been seen near the village. Fear grips your people.",
+      "probability": 0.10,
+      "effects": {
+        "morale": -2
+      }
+    },
+    {
+      "id": "found_supplies",
+      "title": "Abandoned Cache",
+      "description": "Your people discover supplies left by travelers. Fortune smiles upon you!",
+      "probability": 0.08,
+      "effects": {
+        "food": 2,
+        "wood": 2,
+        "morale": 1
+      }
+    },
+    {
+      "id": "elder_wisdom",
+      "title": "Elder's Wisdom",
+      "description": "You share stories of the old ways. Your people feel connected to their heritage.",
+      "probability": 0.10,
+      "effects": {
+        "morale": 2
+      }
+    },
+    {
+      "id": "wolves",
+      "title": "Wolf Pack",
+      "description": "Wolves prowl near the village. Some food stores are lost to keep them at bay.",
+      "probability": 0.08,
+      "effects": {
+        "food": -2,
+        "morale": -1
+      }
+    },
+    {
+      "id": "mild_winter",
+      "title": "Mild Weather",
+      "description": "The weather is unusually mild. Work proceeds smoothly.",
+      "probability": 0.12,
+      "effects": {
+        "morale": 1
+      }
+    },
+    {
+      "id": "broken_tools",
+      "title": "Tools Break",
+      "description": "Essential tools are damaged and need repair. Productivity suffers.",
+      "probability": 0.08,
+      "effects": {
+        "wood": -1,
+        "morale": -1
+      }
+    },
+    {
+      "id": "celebration",
+      "title": "Village Feast",
+      "description": "The villagers hold a small celebration to maintain spirits. Food is consumed, but morale soars.",
+      "probability": 0.10,
+      "effects": {
+        "food": -2,
+        "morale": 3
+      }
+    }
+  ]
+}
