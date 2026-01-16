@@ -46,8 +46,22 @@ export default class BootScene extends Phaser.Scene {
     this.registry.set('dialogue_troll', trollDialogue);
     this.registry.set('dialogue_gnome', gnomeDialogue);
     
-    // Load placeholder sprites (will be generated dynamically)
-    // For now, we'll create them in the create method
+    // Load new sprite assets
+    // Ground tiles
+    this.load.image('tile_snow_ground_01', 'assets/T_Ground_Snow_01.png');
+    this.load.image('tile_snow_ground_02', 'assets/T_Ground_Snow_02.png');
+    
+    // Trees
+    this.load.image('tree_pine_snow_01', 'assets/T_Tree_Pine_Snow_01.png');
+    this.load.image('tree_pine_snow_02', 'assets/T_Tree_Pine_Snow_02.png');
+    this.load.image('tree_pine_snow_03', 'assets/T_Tree_Pine_Snow_03.png');
+    this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
+    this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
+    
+    // Buildings
+    this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
+    this.load.image('buildings/residential_house_snow_02', 'assets/T_ResidentialHouse_Snow_02.png');
+    this.load.image('buildings/well_snow', 'assets/T_Well_Snow_02.png');
     
     // Update loading bar
     this.load.on('progress', (value) => {
@@ -108,7 +122,18 @@ export default class BootScene extends Phaser.Scene {
   generatePlaceholders() {
     // Generate colored placeholder graphics for game elements
     
-    // Grass tile (green)
+    // Snow tiles - use loaded assets if available, otherwise create placeholders
+    // The loaded assets have keys: tile_snow_ground_01, tile_snow_ground_02
+    // We'll create aliases for backward compatibility
+    if (!this.textures.exists('tile_snow')) {
+      const snowTexture = this.add.graphics();
+      snowTexture.fillStyle(0xf0f8ff, 1); // Light snow color
+      snowTexture.fillRect(0, 0, 64, 32);
+      snowTexture.generateTexture('tile_snow', 64, 32);
+      snowTexture.destroy();
+    }
+    
+    // Grass tile (green) - keeping for variety/compatibility
     const grassTexture = this.add.graphics();
     grassTexture.fillStyle(0x4a7c3b, 1);
     grassTexture.fillRect(0, 0, 64, 32);
