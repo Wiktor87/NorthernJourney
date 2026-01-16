@@ -27,71 +27,68 @@ export default class BootScene extends Phaser.Scene {
     super({ key: 'BootScene' });
   }
 
-  preload() {
-    // Create loading bar
-    this.createLoadingScreen();
-    
-    // Store data files in registry for access by other scenes
-    this.registry.set('configData', configData);
-    this.registry.set('resourcesData', resourcesData);
-    this.registry.set('buildingsData', buildingsData);
-    this.registry.set('creaturesData', creaturesData);
-    this.registry.set('randomEventsData', randomEventsData);
-    this.registry.set('seasonalEventsData', seasonalEventsData);
-    this.registry.set('storyEventsData', storyEventsData);
-    this.registry.set('seasonsData', seasonsData);
-    this.registry.set('progressionData', progressionData);
-    
-    // Store dialogue files
-    this.registry.set('dialogue_troll', trollDialogue);
-    this.registry.set('dialogue_gnome', gnomeDialogue);
-    
-    // Add error handling for asset loading
-    this.load.on('loaderror', (file) => {
-      console.error('Failed to load asset:', file.key, file.url);
-    });
-    
-    // Load custom sprite assets with keys matching what the game actually uses
-    // Ground tiles - using your beautiful snowy diamond terrain tiles
-    this.load.image('tile_grass', 'assets/T_Ground_Snow_01.png');
-    this.load.image('tile_snow', 'assets/T_Ground_Snow_01.png');
-    this.load.image('tile_snow_ground_01', 'assets/T_Ground_Snow_01.png');
-    this.load.image('tile_snow_ground_02', 'assets/T_Ground_Snow_02.png');
-    this.load.image('tile_forest', 'assets/T_Ground_Snow_02.png');
-    this.load.image('tile_mountain', 'assets/T_Ground_Snow_02.png');
-    this.load.image('tile_path', 'assets/T_Ground_Snow_01.png');
-    this.load.image('tile_water', 'assets/T_Ground_Snow_02.png');
-    
-    // Trees - all 5 variants of your beautiful snow-covered pine trees
-    this.load.image('tree_pine_snow_01', 'assets/T_Tree_Pine_Snow_01.png');
-    this.load.image('tree_pine_snow_02', 'assets/T_Tree_Pine_Snow_02.png');
-    this.load.image('tree_pine_snow_03', 'assets/T_Tree_Pine_Snow_03.png');
-    this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
-    this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
-    
-    // Buildings - your detailed snowy structures
-    this.load.image('buildings/villager_hut', 'assets/T_ResidentialHouse_Snow_01.png');
-    this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
-    this.load.image('buildings/residential_house_snow_02', 'assets/T_ResidentialHouse_Snow_02.png');
-    this.load.image('buildings/longhouse', 'assets/T_ResidentialHouse_Snow_02.png');
-    this.load.image('buildings/well', 'assets/T_Well_Snow_02.png');
-    this.load.image('buildings/well_snow', 'assets/T_Well_Snow_02.png');
-    
-    // Update loading bar
-    this.load.on('progress', (value) => {
-      this.progressBar.clear();
-      this.progressBar.fillStyle(0x88ccff, 1);
-      this.progressBar.fillRect(250, 280, 300 * value, 30);
-    });
-    
-    this.load.on('complete', () => {
-      this.progressBar.destroy();
-      this.progressBox.destroy();
-      this.loadingText.destroy();
-      this.percentText.destroy();
-    });
-  }
-
+preload() {
+  // Create loading bar
+  this.createLoadingScreen();
+  
+  // Store data files in registry for access by other scenes
+  this.registry.set('configData', configData);
+  this.registry.set('resourcesData', resourcesData);
+  this.registry.set('buildingsData', buildingsData);
+  this.registry.set('creaturesData', creaturesData);
+  this.registry.set('randomEventsData', randomEventsData);
+  this.registry.set('seasonalEventsData', seasonalEventsData);
+  this.registry.set('storyEventsData', storyEventsData);
+  this.registry.set('seasonsData', seasonsData);
+  this.registry.set('progressionData', progressionData);
+  
+  // Store dialogue files
+  this.registry.set('dialogue_troll', trollDialogue);
+  this.registry.set('dialogue_gnome', gnomeDialogue);
+  
+  // Load YOUR custom sprites with the correct keys
+  this.load.image('tile_grass', '/assets/T_Ground_Snow_01.png');
+  this.load.image('tile_forest', '/assets/T_Ground_Snow_02.png');
+  this.load.image('tile_mountain', '/assets/T_Ground_Snow_02.png');
+  this.load.image('tile_path', '/assets/T_Ground_Snow_01.png');
+  this.load.image('tile_water', '/assets/T_Ground_Snow_01.png');
+  
+  // Load tree sprites
+  this.load.image('tree_pine_snow_01', '/assets/T_Tree_Pine_Snow_01.png');
+  this.load.image('tree_pine_snow_02', '/assets/T_Tree_Pine_Snow_02.png');
+  this.load.image('tree_pine_snow_03', '/assets/T_Tree_Pine_Snow_03.png');
+  this.load.image('tree_pine_snow_04', '/assets/T_Tree_Pine_Snow_04.png');
+  this.load.image('tree_pine_snow_05', '/assets/T_Tree_Pine_Snow_05.png');
+  
+  // Load building sprites
+  this.load. image('buildings/villager_hut', '/assets/T_ResidentialHouse_Snow_01.png');
+  this.load.image('buildings/longhouse', '/assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/well', '/assets/T_Well_Snow_02.png');
+  this.load.image('buildings/fishing_hut', '/assets/T_ResidentialHouse_Snow_01.png');
+  this.load.image('buildings/lumber_camp', '/assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/farm', '/assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/storage', '/assets/T_ResidentialHouse_Snow_01.png');
+  this.load.image('buildings/palisade_wall', '/assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/dock', '/assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/boat', '/assets/T_ResidentialHouse_Snow_01.png');
+  
+  // Load creature placeholders (keep these for now)
+  // ...  existing creature loading code ...
+  
+  // Update loading bar
+  this.load.on('progress', (value) => {
+    this.progressBar.clear();
+    this.progressBar. fillStyle(0x88ccff, 1);
+    this.progressBar.fillRect(250, 280, 300 * value, 30);
+  });
+  
+  this.load.on('complete', () => {
+    this.progressBar.destroy();
+    this.progressBox.destroy();
+    this.loadingText.destroy();
+    this.percentText.destroy();
+  });
+}
   create() {
     // Generate minimal placeholders only for assets without PNG sprites
     this.generateMinimalPlaceholders();
