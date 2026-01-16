@@ -53,6 +53,7 @@ export default class BootScene extends Phaser.Scene {
     
     // Load new sprite assets
     // Ground tiles - Load with keys that match usage in VillageScene
+    // Note: tile_grass is loaded with snow sprite for consistency (referenced in creatures.json)
     this.load.image('tile_grass', 'assets/T_Ground_Snow_01.png'); // Main grass tile replaced with snow
     this.load.image('tile_snow_ground_01', 'assets/T_Ground_Snow_01.png');
     this.load.image('tile_snow_ground_02', 'assets/T_Ground_Snow_02.png');
@@ -65,6 +66,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
     
     // Buildings - Load with both base keys (used by building system) and variant keys (used for snow theme)
+    // Note: Phaser's texture manager efficiently handles multiple keys pointing to the same file
     // Villager hut: base key + snow variants for randomization in VillageScene
     this.load.image('buildings/villager_hut', 'assets/T_ResidentialHouse_Snow_01.png');
     this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
