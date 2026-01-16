@@ -5,8 +5,9 @@
 const gameState = {
     day: 1,
     season: 'Deep Winter',
-    weather: '❄️ Clear',
-    population: 15,
+    weather: 'Howling Gale',
+    population: 16,
+    sick: 4,
     warmth: 60,
     sustenance: 50,
     dread: 20,
@@ -56,25 +57,25 @@ let cameraControls = {
     cameraStartY: 0
 };
 
-// Preload assets - Using all existing sprites from assets folder
+// Preload assets - Using all existing sprites from public/assets folder
 function preload() {
     mainScene = this;
     
-    // Load ground tiles (from assets/tiles/)
-    this.load.image('ground_snow_1', 'assets/tiles/T_Ground_Snow_01.png');
-    this.load.image('ground_snow_2', 'assets/tiles/T_Ground_Snow_02.png');
+    // Load ground tiles (from public/assets/)
+    this.load.image('ground_snow_1', 'public/assets/T_Ground_Snow_01.png');
+    this.load.image('ground_snow_2', 'public/assets/T_Ground_Snow_02.png');
     
-    // Load trees (from assets/trees/)
-    this.load.image('tree_1', 'assets/trees/T_Tree_Pine_Snow_01.png');
-    this.load.image('tree_2', 'assets/trees/T_Tree_Pine_Snow_02.png');
-    this.load.image('tree_3', 'assets/trees/T_Tree_Pine_Snow_03.png');
-    this.load.image('tree_4', 'assets/trees/T_Tree_Pine_Snow_04.png');
-    this.load.image('tree_5', 'assets/trees/T_Tree_Pine_Snow_05.png');
+    // Load trees (from public/assets/)
+    this.load.image('tree_1', 'public/assets/T_Tree_Pine_Snow_01.png');
+    this.load.image('tree_2', 'public/assets/T_Tree_Pine_Snow_02.png');
+    this.load.image('tree_3', 'public/assets/T_Tree_Pine_Snow_03.png');
+    this.load.image('tree_4', 'public/assets/T_Tree_Pine_Snow_04.png');
+    this.load.image('tree_5', 'public/assets/T_Tree_Pine_Snow_05.png');
     
-    // Load buildings (from assets/buildings/)
-    this.load.image('house_1', 'assets/buildings/T_ResidentialHouse_Snow_01.png');
-    this.load.image('house_2', 'assets/buildings/T_ResidentialHouse_Snow_02.png');
-    this.load.image('well', 'assets/buildings/T_Well_Snow_02.png');
+    // Load buildings (from public/assets/)
+    this.load.image('house_1', 'public/assets/T_ResidentialHouse_Snow_01.png');
+    this.load.image('house_2', 'public/assets/T_ResidentialHouse_Snow_02.png');
+    this.load.image('well', 'public/assets/T_Well_Snow_02.png');
 }
 
 // Create the game world
@@ -88,9 +89,9 @@ function create() {
     // Create isometric map
     createIsometricMap();
     
-    // Setup camera
+    // Setup camera with increased zoom for better visibility
     this.cameras.main.setBounds(-500, -500, 2000, 2000);
-    this.cameras.main.setZoom(1);
+    this.cameras.main.setZoom(1.5);
     this.cameras.main.centerOn(600, 350);
     
     // Setup input for tile selection
@@ -137,7 +138,7 @@ function createIsometricMap() {
             // Use both ground tile variations
             const tileKey = Math.random() > 0.5 ? 'ground_snow_1' : 'ground_snow_2';
             const tile = mainScene.add.image(isoX, isoY, tileKey);
-            tile.setScale(0.18);
+            tile.setScale(0.35);
             tile.setInteractive();
             tile.setData('gridX', x);
             tile.setData('gridY', y);
@@ -151,7 +152,7 @@ function createIsometricMap() {
             if (Math.random() < 0.15) {
                 const treeNum = Math.floor(Math.random() * 5) + 1;
                 const tree = mainScene.add.image(isoX, isoY - 30, `tree_${treeNum}`);
-                tree.setScale(0.22);
+                tree.setScale(0.45);
                 tree.setDepth(isoY);
                 objectsLayer.add(tree);
             }
@@ -160,7 +161,7 @@ function createIsometricMap() {
             if (Math.random() < 0.05 && x > 3 && y > 3) {
                 const houseNum = Math.random() > 0.5 ? 1 : 2;
                 const house = mainScene.add.image(isoX, isoY - 40, `house_${houseNum}`);
-                house.setScale(0.28);
+                house.setScale(0.55);
                 house.setDepth(isoY);
                 objectsLayer.add(house);
             }
@@ -173,7 +174,7 @@ function createIsometricMap() {
     const wellIsoX = startX + (centerX - centerY) * (tileWidth / 2);
     const wellIsoY = startY + (centerX + centerY) * (tileHeight / 2);
     const well = mainScene.add.image(wellIsoX, wellIsoY - 35, 'well');
-    well.setScale(0.25);
+    well.setScale(0.5);
     well.setDepth(wellIsoY);
     objectsLayer.add(well);
 }
@@ -294,6 +295,20 @@ window.game = {
         document.getElementById('event-popup').style.display = 'none';
         addLogEntry(`> Choice made: Option ${choice + 1}`);
         console.log(`Event choice: ${choice}`);
+    },
+    
+    selectEventOption: function(option) {
+        document.getElementById('event-panel').style.display = 'none';
+        addLogEntry(`> Event decision made: Option ${String.fromCharCode(65 + option)}`);
+        console.log(`Event panel option: ${option}`);
+    },
+    
+    showEventPanel: function() {
+        document.getElementById('event-panel').style.display = 'block';
+    },
+    
+    hideEventPanel: function() {
+        document.getElementById('event-panel').style.display = 'none';
     }
 };
 
@@ -302,12 +317,20 @@ function updateUI() {
     // Update date and stats
     document.getElementById('date-display').textContent = `${gameState.season}, Day ${gameState.day}`;
     document.getElementById('weather-display').textContent = gameState.weather;
-    document.getElementById('population-display').textContent = `👥 ${gameState.population}`;
+    document.getElementById('population-display').textContent = `👥 ${gameState.population}${gameState.sick > 0 ? ` (${gameState.sick} Sick)` : ''}`;
     
-    // Update status bars
-    document.getElementById('warmth-bar').style.width = `${gameState.warmth}%`;
-    document.getElementById('sustenance-bar').style.width = `${gameState.sustenance}%`;
-    document.getElementById('dread-bar').style.width = `${gameState.dread}%`;
+    // Update status bars with level indicators
+    const warmthBar = document.getElementById('warmth-bar');
+    warmthBar.style.width = `${gameState.warmth}%`;
+    document.getElementById('warmth-level').textContent = getStatusLevel(gameState.warmth);
+    
+    const sustenanceBar = document.getElementById('sustenance-bar');
+    sustenanceBar.style.width = `${gameState.sustenance}%`;
+    document.getElementById('sustenance-level').textContent = getStatusLevel(gameState.sustenance);
+    
+    const dreadBar = document.getElementById('dread-bar');
+    dreadBar.style.width = `${gameState.dread}%`;
+    document.getElementById('dread-level').textContent = getDreadLevel(gameState.dread);
     
     // Update resources
     document.getElementById('driftwood').textContent = gameState.resources.driftwood;
@@ -316,6 +339,23 @@ function updateUI() {
     document.getElementById('icicle-fish').textContent = gameState.resources.icicleFish;
     document.getElementById('porridge').textContent = gameState.resources.porridge;
     document.getElementById('livestock').textContent = gameState.resources.livestock;
+}
+
+function getStatusLevel(value) {
+    if (value >= 80) return 'EXCELLENT';
+    if (value >= 60) return 'GOOD';
+    if (value >= 40) return 'MODERATE';
+    if (value >= 20) return 'LOW!';
+    if (value >= 10) return 'VERY LOW!';
+    return 'CRITICAL!';
+}
+
+function getDreadLevel(value) {
+    if (value >= 80) return 'OVERWHELMING!';
+    if (value >= 60) return 'VERY HIGH!';
+    if (value >= 40) return 'HIGH';
+    if (value >= 20) return 'MODERATE';
+    return 'LOW';
 }
 
 function addLogEntry(text) {
