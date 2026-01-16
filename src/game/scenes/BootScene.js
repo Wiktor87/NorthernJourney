@@ -93,6 +93,9 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
+    // Generate minimal placeholders only for assets without PNG sprites
+    this.generateMinimalPlaceholders();
+    
     // Transition to main menu after a short delay
     this.time.delayedCall(500, () => {
       this.scene.start('MainMenuScene');
@@ -128,5 +131,111 @@ export default class BootScene extends Phaser.Scene {
     this.load.on('progress', (value) => {
       this.percentText.setText(parseInt(value * 100) + '%');
     });
+  }
+
+  generateMinimalPlaceholders() {
+    // Only generate placeholders for assets that don't have PNG sprites yet
+    // This ensures the custom sprites (ground, trees, houses, well) are NOT overwritten
+    
+    // Building - Fishing Hut (brown) - only if not already loaded
+    if (!this.textures.exists('buildings/fishing_hut')) {
+      const fishingHutTexture = this.add.graphics();
+      fishingHutTexture.fillStyle(0x8b4513, 1);
+      fishingHutTexture.fillRect(0, 0, 64, 48);
+      fishingHutTexture.generateTexture('buildings/fishing_hut', 64, 48);
+      fishingHutTexture.destroy();
+    }
+    
+    // Building - Lumber Camp (dark brown)
+    if (!this.textures.exists('buildings/lumber_camp')) {
+      const lumberCampTexture = this.add.graphics();
+      lumberCampTexture.fillStyle(0x654321, 1);
+      lumberCampTexture.fillRect(0, 0, 64, 48);
+      lumberCampTexture.generateTexture('buildings/lumber_camp', 64, 48);
+      lumberCampTexture.destroy();
+    }
+    
+    // Building - Farm (light brown)
+    if (!this.textures.exists('buildings/farm')) {
+      const farmTexture = this.add.graphics();
+      farmTexture.fillStyle(0xdaa520, 1);
+      farmTexture.fillRect(0, 0, 128, 48);
+      farmTexture.generateTexture('buildings/farm', 128, 48);
+      farmTexture.destroy();
+    }
+    
+    // Building - Storage (gray-brown)
+    if (!this.textures.exists('buildings/storage')) {
+      const storageTexture = this.add.graphics();
+      storageTexture.fillStyle(0x8b7355, 1);
+      storageTexture.fillRect(0, 0, 64, 48);
+      storageTexture.generateTexture('buildings/storage', 64, 48);
+      storageTexture.destroy();
+    }
+    
+    // Building - Palisade Wall (brown sticks)
+    if (!this.textures.exists('buildings/palisade_wall')) {
+      const palisadeTexture = this.add.graphics();
+      palisadeTexture.fillStyle(0x8b6914, 1);
+      palisadeTexture.fillRect(0, 0, 64, 48);
+      palisadeTexture.generateTexture('buildings/palisade_wall', 64, 48);
+      palisadeTexture.destroy();
+    }
+    
+    // Building - Dock (brown wood)
+    if (!this.textures.exists('buildings/dock')) {
+      const dockTexture = this.add.graphics();
+      dockTexture.fillStyle(0x8B6914, 1);
+      dockTexture.fillRect(0, 0, 128, 64);
+      dockTexture.generateTexture('buildings/dock', 128, 64);
+      dockTexture.destroy();
+    }
+    
+    // Building - Boat (dark wood)
+    if (!this.textures.exists('buildings/boat')) {
+      const boatTexture = this.add.graphics();
+      boatTexture.fillStyle(0x654321, 1);
+      boatTexture.fillRect(0, 0, 64, 48);
+      boatTexture.generateTexture('buildings/boat', 64, 48);
+      boatTexture.destroy();
+    }
+    
+    // Creature - Troll (red)
+    if (!this.textures.exists('creatures/troll')) {
+      const trollTexture = this.add.graphics();
+      trollTexture.fillStyle(0xff4444, 1);
+      trollTexture.fillRect(0, 0, 48, 48);
+      trollTexture.generateTexture('creatures/troll', 48, 48);
+      trollTexture.destroy();
+    }
+    
+    // Creature - Gnome (yellow)
+    if (!this.textures.exists('creatures/gnome')) {
+      const gnomeTexture = this.add.graphics();
+      gnomeTexture.fillStyle(0xffdd44, 1);
+      gnomeTexture.fillRect(0, 0, 32, 32);
+      gnomeTexture.generateTexture('creatures/gnome', 32, 32);
+      gnomeTexture.destroy();
+    }
+    
+    // Creature - Draugr (dark red)
+    if (!this.textures.exists('creatures/draugr')) {
+      const draugrTexture = this.add.graphics();
+      draugrTexture.fillStyle(0x8b0000, 1);
+      draugrTexture.fillRect(0, 0, 48, 48);
+      draugrTexture.generateTexture('creatures/draugr', 48, 48);
+      draugrTexture.destroy();
+    }
+    
+    // Villager sprite - simple humanoid shape
+    if (!this.textures.exists('villager')) {
+      const villagerTexture = this.add.graphics();
+      villagerTexture.fillStyle(0xFFDBB4, 1); // Skin tone
+      villagerTexture.fillRect(8, 0, 16, 16); // Head
+      villagerTexture.fillStyle(0x4169E1, 1); // Blue tunic
+      villagerTexture.fillRect(4, 16, 24, 24); // Body
+      villagerTexture.generateTexture('villager', 32, 48);
+      villagerTexture.destroy();
+    }
   }
 }
