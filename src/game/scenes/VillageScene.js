@@ -243,6 +243,13 @@ export default class VillageScene extends Phaser.Scene {
     // Convert isometric to grid coordinates
     const gridPos = this.worldToGrid(worldX, worldY);
     
+    // Check if clicking on a building
+    const clickedBuilding = this.buildingSystem.buildings.find(b => b.x === gridPos.x && b.y === gridPos.y);
+    if (clickedBuilding) {
+      eventBridge.emit('building:clicked', { building: clickedBuilding });
+      return;
+    }
+    
     // Check if in placement mode
     if (this.buildingSystem.placementMode) {
       this.attemptBuildingPlacement(gridPos.x, gridPos.y);

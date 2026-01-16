@@ -11,6 +11,7 @@ import ResourcePanel from './ResourcePanel.jsx';
 import BuildMenu from './BuildMenu.jsx';
 import DialogueBox from './DialogueBox.jsx';
 import EventPopup from './EventPopup.jsx';
+import BuildingContextMenu from './BuildingContextMenu.jsx';
 import { eventBridge } from '../game/EventBridge.js';
 import './GameContainer.css';
 
@@ -19,6 +20,7 @@ function GameContainer() {
   const [currentEvent, setCurrentEvent] = useState(null);
   const [currentDialogue, setCurrentDialogue] = useState(null);
   const [buildMenuOpen, setBuildMenuOpen] = useState(false);
+  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [gameOverReason, setGameOverReason] = useState('');
 
@@ -66,6 +68,21 @@ function GameContainer() {
       eventBridge.on('game:over', (data) => {
         setGameOver(true);
         setGameOverReason(data.reason);
+      })
+    );
+
+    // Building clicked
+    unsubscribers.push(
+      eventBridge.on('building:clicked', (data) => {
+        setSelectedBuilding(data.building);
+      })
+    );
+
+    // Villager clicked
+    unsubscribers.push(
+      eventBridge.on('villager:clicked', (data) => {
+        // Could show a tooltip or info panel
+        console.log('Villager clicked:', data.message);
       })
     );
 
@@ -187,6 +204,14 @@ function GameContainer() {
         <DialogueBox
           dialogue={currentDialogue}
           onChoice={handleDialogueChoice}
+        />
+      )}
+
+      {selectedBuilding && (
+        <BuildingContextMenu
+          building={selectedBuilding}
+          resources={resources}
+          onClose={() => setSelectedBuilding(null)}
         />
       )}
 
