@@ -36,9 +36,11 @@ function PhaserGame() {
       ref={containerRef} 
       id="phaser-container"
       style={{
-        width: '800px',
-        height: '600px',
-        margin: '0 auto'
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0
       }}
     />
   );

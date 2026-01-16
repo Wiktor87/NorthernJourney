@@ -129,6 +129,20 @@ export default class BootScene extends Phaser.Scene {
     mountainTexture.generateTexture('tile_mountain', 64, 32);
     mountainTexture.destroy();
     
+    // Forest tile - dark green
+    const forestTexture = this.add.graphics();
+    forestTexture.fillStyle(0x2d5016, 1);
+    forestTexture.fillRect(0, 0, 64, 32);
+    forestTexture.generateTexture('tile_forest', 64, 32);
+    forestTexture.destroy();
+
+    // Path tile - tan/brown
+    const pathTexture = this.add.graphics();
+    pathTexture.fillStyle(0x8B7355, 1);
+    pathTexture.fillRect(0, 0, 64, 32);
+    pathTexture.generateTexture('tile_path', 64, 32);
+    pathTexture.destroy();
+    
     // Building - Fishing Hut (brown)
     const fishingHutTexture = this.add.graphics();
     fishingHutTexture.fillStyle(0x8b4513, 1);
@@ -178,6 +192,27 @@ export default class BootScene extends Phaser.Scene {
     palisadeTexture.generateTexture('buildings/palisade_wall', 64, 48);
     palisadeTexture.destroy();
     
+    // Building - Well (stone gray)
+    const wellTexture = this.add.graphics();
+    wellTexture.fillStyle(0x888888, 1);
+    wellTexture.fillRect(0, 0, 48, 48);
+    wellTexture.generateTexture('buildings/well', 48, 48);
+    wellTexture.destroy();
+    
+    // Building - Dock (brown wood)
+    const dockTexture = this.add.graphics();
+    dockTexture.fillStyle(0x8B6914, 1);
+    dockTexture.fillRect(0, 0, 128, 64);
+    dockTexture.generateTexture('buildings/dock', 128, 64);
+    dockTexture.destroy();
+    
+    // Building - Boat (dark wood)
+    const boatTexture = this.add.graphics();
+    boatTexture.fillStyle(0x654321, 1);
+    boatTexture.fillRect(0, 0, 64, 48);
+    boatTexture.generateTexture('buildings/boat', 64, 48);
+    boatTexture.destroy();
+    
     // Creature - Troll (red)
     const trollTexture = this.add.graphics();
     trollTexture.fillStyle(0xff4444, 1);
@@ -199,11 +234,13 @@ export default class BootScene extends Phaser.Scene {
     draugrTexture.generateTexture('creatures/draugr', 48, 48);
     draugrTexture.destroy();
     
-    // Villager (white)
+    // Villager sprite - simple humanoid shape
     const villagerTexture = this.add.graphics();
-    villagerTexture.fillStyle(0xffffff, 1);
-    villagerTexture.fillRect(0, 0, 32, 32);
-    villagerTexture.generateTexture('villager', 32, 32);
+    villagerTexture.fillStyle(0xFFDBB4, 1); // Skin tone
+    villagerTexture.fillRect(8, 0, 16, 16); // Head
+    villagerTexture.fillStyle(0x4169E1, 1); // Blue tunic
+    villagerTexture.fillRect(4, 16, 24, 24); // Body
+    villagerTexture.generateTexture('villager', 32, 48);
     villagerTexture.destroy();
   }
 }

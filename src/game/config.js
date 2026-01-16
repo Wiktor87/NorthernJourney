@@ -13,11 +13,11 @@ import MainMenuScene from './scenes/MainMenuScene.js';
 export const config = {
   type: Phaser.AUTO,
   parent: 'phaser-container',
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
   backgroundColor: '#1a1a2e',
   scale: {
-    mode: Phaser.Scale.FIT,
+    mode: Phaser.Scale.RESIZE,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
   scene: [BootScene, MainMenuScene, VillageScene],

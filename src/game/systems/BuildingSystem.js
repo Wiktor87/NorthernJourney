@@ -89,7 +89,13 @@ export class BuildingSystem {
     
     // Check if tile is grass (basic requirement)
     const tile = mapData[y][x];
-    if (tile !== 'grass' && !building.placement_rules.includes('can_build_on_' + tile)) {
+    
+    // Special case: can build on water
+    if (building.placement_rules.includes('can_build_on_water')) {
+      if (tile !== 'water') {
+        return false;
+      }
+    } else if (tile !== 'grass' && tile !== 'path' && !building.placement_rules.includes('can_build_on_' + tile)) {
       return false;
     }
     
@@ -168,6 +174,29 @@ export class BuildingSystem {
     this.buildings.push(building);
     
     eventBridge.emit('building:placed', { building });
+    
+    return true;
+  }
+
+  /**
+   * Place a starting building (free, instant construction)
+   */
+  placeStartingBuilding(x, y, buildingId) {
+    const definition = this.buildingDefinitions.find(b => b.id === buildingId);
+    if (!definition) return false;
+    
+    // Create building instance (no cost, instant construction)
+    const building = {
+      id: buildingId,
+      definition: definition,
+      x: x,
+      y: y,
+      level: 1,
+      workers: 0,
+      constructionTurnsLeft: 0
+    };
+    
+    this.buildings.push(building);
     
     return true;
   }

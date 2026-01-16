@@ -13,6 +13,7 @@ import { EventSystem } from '../systems/EventSystem.js';
 import { DialogueSystem } from '../systems/DialogueSystem.js';
 import { SeasonSystem } from '../systems/SeasonSystem.js';
 import { CreatureSystem } from '../systems/CreatureSystem.js';
+import { VillagerSystem } from '../systems/VillagerSystem.js';
 
 export default class VillageScene extends Phaser.Scene {
   constructor() {
@@ -66,8 +67,8 @@ export default class VillageScene extends Phaser.Scene {
     this.progressionData = this.registry.get('progressionData');
     
     // Map dimensions
-    this.mapWidth = 12;
-    this.mapHeight = 10;
+    this.mapWidth = 24;
+    this.mapHeight = 20;
     this.tileWidth = 64;
     this.tileHeight = 32;
   }
@@ -80,6 +81,7 @@ export default class VillageScene extends Phaser.Scene {
     this.dialogueSystem = new DialogueSystem(this);
     this.seasonSystem = new SeasonSystem(this);
     this.creatureSystem = new CreatureSystem(this);
+    this.villagerSystem = new VillagerSystem(this);
     
     // Initialize systems with data
     this.buildingSystem.init(this.buildingsData);
@@ -91,6 +93,7 @@ export default class VillageScene extends Phaser.Scene {
     );
     this.seasonSystem.init(this.seasonsData, this.configData);
     this.creatureSystem.init(this.creaturesData, this.configData);
+    this.villagerSystem.init();
     
     // Load dialogues
     const trollDialogue = this.registry.get('dialogue_troll');
@@ -103,13 +106,40 @@ export default class VillageScene extends Phaser.Scene {
     // Initialize resources
     this.resourceManager.init(this.resourcesData, this.configData);
     
+    // Place starting buildings
+    // 3 longhouses/villager huts in the village center
+    this.buildingSystem.placeStartingBuilding(10, 7, 'villager_hut');
+    this.buildingSystem.placeStartingBuilding(12, 7, 'villager_hut');
+    this.buildingSystem.placeStartingBuilding(14, 9, 'villager_hut');
+    
+    // Fishing dock adjacent to water (water starts at y=16, so y=15 is adjacent)
+    this.buildingSystem.placeStartingBuilding(12, 15, 'fishing_dock');
+    
+    // Boat on water (y >= 16 is water)
+    this.buildingSystem.placeStartingBuilding(12, 16, 'boat');
+    
+    // Well in village center
+    this.buildingSystem.placeStartingBuilding(12, 10, 'well');
+    
+    // Create sprites for starting buildings
+    this.buildingSystem.buildings.forEach(building => {
+      this.createBuildingSprite(building.x, building.y);
+    });
+    
+    // Spawn initial villagers
+    const population = this.resourceManager.get('population');
+    this.villagerSystem.updateVillagers(population, this.buildingSystem.buildings);
+    
     // Emit initial state
     eventBridge.emit('game:started');
   }
 
   createMap() {
     // Create container for isometric tiles
-    this.mapContainer = this.add.container(400, 100);
+    // Center the map based on screen dimensions
+    const centerX = this.cameras.main.width / 2;
+    const centerY = this.cameras.main.height / 2;
+    this.mapContainer = this.add.container(centerX, centerY - 100);
     
     // Generate map data
     this.mapData = this.generateMapData();
@@ -134,7 +164,7 @@ export default class VillageScene extends Phaser.Scene {
     }
     
     // Create container for buildings and creatures
-    this.entityContainer = this.add.container(400, 100);
+    this.entityContainer = this.add.container(centerX, centerY - 100);
   }
 
   generateMapData() {
@@ -142,13 +172,28 @@ export default class VillageScene extends Phaser.Scene {
     for (let y = 0; y < this.mapHeight; y++) {
       const row = [];
       for (let x = 0; x < this.mapWidth; x++) {
-        // Water in bottom rows
-        if (y >= 8) {
+        // Forest at outer edges (2 layers)
+        if (x <= 1 || x >= this.mapWidth - 2 || y <= 1 || y >= this.mapHeight - 2) {
+          row.push('forest');
+        }
+        // Water in bottom section (near edge)
+        else if (y >= this.mapHeight - 4) {
           row.push('water');
         }
-        // Mountains at edges
-        else if (x === 0 || x === this.mapWidth - 1 || y === 0) {
+        // Mountains at inner edge (after forest)
+        else if (x === 2 || x === this.mapWidth - 3 || y === 2) {
           row.push('mountain');
+        }
+        // Path from center to water (vertical path)
+        else if (x === Math.floor(this.mapWidth / 2) && y >= 10) {
+          row.push('path');
+        }
+        // Horizontal paths in village center
+        else if (y === 8 && x >= 8 && x <= 16) {
+          row.push('path');
+        }
+        else if (y === 11 && x >= 8 && x <= 16) {
+          row.push('path');
         }
         // Grass everywhere else
         else {
@@ -168,8 +213,8 @@ export default class VillageScene extends Phaser.Scene {
   }
 
   setupCameraControls() {
-    // Enable camera dragging
-    this.cameras.main.setBounds(-400, -300, 1600, 1200);
+    // Enable camera dragging with larger bounds for bigger map
+    this.cameras.main.setBounds(-800, -600, 2400, 1800);
     
     // WASD keys for camera movement
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -188,6 +233,9 @@ export default class VillageScene extends Phaser.Scene {
     eventBridge.on('building:select', (data) => this.handleBuildingSelection(data));
     eventBridge.on('dialogue:choice', (data) => this.handleDialogueChoice(data));
     eventBridge.on('creature:interact', (data) => this.handleCreatureInteraction(data));
+    eventBridge.on('building:assign_worker', (data) => this.handleAssignWorker(data));
+    eventBridge.on('building:remove_worker', (data) => this.handleRemoveWorker(data));
+    eventBridge.on('building:upgrade', (data) => this.handleBuildingUpgrade(data));
   }
 
   handleMapClick(pointer) {
@@ -197,6 +245,13 @@ export default class VillageScene extends Phaser.Scene {
     
     // Convert isometric to grid coordinates
     const gridPos = this.worldToGrid(worldX, worldY);
+    
+    // Check if clicking on a building
+    const clickedBuilding = this.buildingSystem.buildings.find(b => b.x === gridPos.x && b.y === gridPos.y);
+    if (clickedBuilding) {
+      eventBridge.emit('building:clicked', { building: clickedBuilding });
+      return;
+    }
     
     // Check if in placement mode
     if (this.buildingSystem.placementMode) {
@@ -259,6 +314,8 @@ export default class VillageScene extends Phaser.Scene {
     const currentSeason = this.seasonSystem.getCurrentSeasonId();
     const currentEra = this.resourceManager.get('era');
     const seasonModifiers = this.seasonSystem.getSeasonModifiers();
+    const currentTurn = this.resourceManager.get('turn');
+    const gracePeriod = this.configData.grace_period_turns || 3;
     
     // Process season
     this.seasonSystem.processTurn();
@@ -266,8 +323,11 @@ export default class VillageScene extends Phaser.Scene {
     // Process buildings
     this.buildingSystem.processTurn(this.resourceManager, seasonModifiers);
     
-    // Consumption
+    // Update villagers based on population
     const population = this.resourceManager.get('population');
+    this.villagerSystem.updateVillagers(population, this.buildingSystem.buildings);
+    
+    // Consumption
     const foodConsumption = population * this.configData.consumption_rates.food_per_villager;
     
     this.resourceManager.remove('food', foodConsumption);
@@ -282,24 +342,29 @@ export default class VillageScene extends Phaser.Scene {
       this.resourceManager.remove('morale', 15);
       
       eventBridge.emit('event:starvation', { deaths });
+      
+      // Update villagers after deaths
+      this.villagerSystem.updateVillagers(this.resourceManager.get('population'), this.buildingSystem.buildings);
     }
     
-    // Check for events
-    const events = this.eventSystem.checkEvents(currentSeason, currentEra, this.resourceManager);
-    
-    if (events.length > 0) {
-      events.forEach(event => {
-        this.eventSystem.triggerEvent(event);
-        
-        // Apply automatic effects
-        if (!event.choices || event.choices.length === 0) {
-          this.eventSystem.applyEventEffects(event.effects, this.resourceManager);
-        }
-      });
+    // Check for events (only after grace period)
+    if (currentTurn > gracePeriod) {
+      const events = this.eventSystem.checkEvents(currentSeason, currentEra, this.resourceManager);
+      
+      if (events.length > 0) {
+        events.forEach(event => {
+          this.eventSystem.triggerEvent(event);
+          
+          // Apply automatic effects
+          if (!event.choices || event.choices.length === 0) {
+            this.eventSystem.applyEventEffects(event.effects, this.resourceManager);
+          }
+        });
+      }
+      
+      // Check for creature spawns (only after grace period)
+      this.creatureSystem.checkSpawns(currentSeason, currentEra);
     }
-    
-    // Check for creature spawns
-    this.creatureSystem.checkSpawns(currentSeason, currentEra);
     
     // Check game over
     this.checkGameOver();
@@ -316,6 +381,40 @@ export default class VillageScene extends Phaser.Scene {
   handleCreatureInteraction(data) {
     const { creatureId } = data;
     this.creatureSystem.interactWithCreature(creatureId);
+  }
+
+  handleAssignWorker(data) {
+    const building = this.buildingSystem.buildings.find(b => 
+      b.id === data.buildingId || (b.x + ',' + b.y) === data.buildingId
+    );
+    
+    if (building) {
+      const maxWorkers = building.definition.workers?.max || 0;
+      if (building.workers < maxWorkers) {
+        building.workers++;
+        eventBridge.emit('building:worker_assigned', { building });
+        // Force UI update
+        this.resourceManager.emitUpdate();
+      }
+    }
+  }
+
+  handleRemoveWorker(data) {
+    const building = this.buildingSystem.buildings.find(b => 
+      b.id === data.buildingId || (b.x + ',' + b.y) === data.buildingId
+    );
+    
+    if (building && building.workers > 0) {
+      building.workers--;
+      eventBridge.emit('building:worker_removed', { building });
+      // Force UI update
+      this.resourceManager.emitUpdate();
+    }
+  }
+
+  handleBuildingUpgrade(data) {
+    // TODO: Implement building upgrade system
+    console.log('Building upgrade not yet implemented:', data);
   }
 
   checkGameOver() {
@@ -341,7 +440,8 @@ export default class VillageScene extends Phaser.Scene {
       buildings: this.buildingSystem.getSaveState(),
       events: this.eventSystem.getSaveState(),
       season: this.seasonSystem.getSaveState(),
-      creatures: this.creatureSystem.getSaveState()
+      creatures: this.creatureSystem.getSaveState(),
+      villagers: this.villagerSystem.getSaveState()
     };
     
     localStorage.setItem('northernjourney_save', JSON.stringify(saveData));
@@ -359,6 +459,11 @@ export default class VillageScene extends Phaser.Scene {
     this.buildingSystem.buildings.forEach(building => {
       this.createBuildingSprite(building.x, building.y);
     });
+    
+    // Recreate villagers
+    if (saveData.villagers) {
+      this.villagerSystem.loadState(saveData.villagers, this.buildingSystem.buildings);
+    }
     
     eventBridge.emit('game:loaded');
   }
