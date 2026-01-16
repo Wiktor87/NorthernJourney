@@ -17,7 +17,7 @@ export class ResourceManager {
   /**
    * Initialize resources from data file
    */
-  async init(resourcesData, configData) {
+  init(resourcesData, configData) {
     this.resourceDefinitions = resourcesData.resources;
     this.config = configData;
     

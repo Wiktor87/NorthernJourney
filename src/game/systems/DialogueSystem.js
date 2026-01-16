@@ -18,7 +18,7 @@ export class DialogueSystem {
   /**
    * Load a dialogue file
    */
-  async loadDialogue(dialogueId, dialogueData) {
+  loadDialogue(dialogueId, dialogueData) {
     this.dialogues.set(dialogueId, dialogueData);
   }
 
