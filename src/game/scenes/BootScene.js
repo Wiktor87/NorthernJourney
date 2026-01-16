@@ -46,22 +46,27 @@ export default class BootScene extends Phaser.Scene {
     this.registry.set('dialogue_troll', trollDialogue);
     this.registry.set('dialogue_gnome', gnomeDialogue);
     
+    // Add error handling for asset loading
+    this.load.on('loaderror', (file) => {
+      console.error('Failed to load asset:', file.key, file.url);
+    });
+    
     // Load new sprite assets
     // Ground tiles
-    this.load.image('tile_snow_ground_01', 'assets/T_Ground_Snow_01.png');
-    this.load.image('tile_snow_ground_02', 'assets/T_Ground_Snow_02.png');
+    this.load.image('tile_snow_ground_01', '/NorthernJourney/assets/T_Ground_Snow_01.png');
+    this.load.image('tile_snow_ground_02', '/NorthernJourney/assets/T_Ground_Snow_02.png');
     
     // Trees
-    this.load.image('tree_pine_snow_01', 'assets/T_Tree_Pine_Snow_01.png');
-    this.load.image('tree_pine_snow_02', 'assets/T_Tree_Pine_Snow_02.png');
-    this.load.image('tree_pine_snow_03', 'assets/T_Tree_Pine_Snow_03.png');
-    this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
-    this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
+    this.load.image('tree_pine_snow_01', '/NorthernJourney/assets/T_Tree_Pine_Snow_01.png');
+    this.load.image('tree_pine_snow_02', '/NorthernJourney/assets/T_Tree_Pine_Snow_02.png');
+    this.load.image('tree_pine_snow_03', '/NorthernJourney/assets/T_Tree_Pine_Snow_03.png');
+    this.load.image('tree_pine_snow_04', '/NorthernJourney/assets/T_Tree_Pine_Snow_04.png');
+    this.load.image('tree_pine_snow_05', '/NorthernJourney/assets/T_Tree_Pine_Snow_05.png');
     
     // Buildings
-    this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
-    this.load.image('buildings/residential_house_snow_02', 'assets/T_ResidentialHouse_Snow_02.png');
-    this.load.image('buildings/well_snow', 'assets/T_Well_Snow_02.png');
+    this.load.image('buildings/residential_house_snow_01', '/NorthernJourney/assets/T_ResidentialHouse_Snow_01.png');
+    this.load.image('buildings/residential_house_snow_02', '/NorthernJourney/assets/T_ResidentialHouse_Snow_02.png');
+    this.load.image('buildings/well_snow', '/NorthernJourney/assets/T_Well_Snow_02.png');
     
     // Update loading bar
     this.load.on('progress', (value) => {
