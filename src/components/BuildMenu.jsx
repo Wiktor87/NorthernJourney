@@ -5,21 +5,16 @@
  * Buildings are loaded from data/buildings.json
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import buildingsData from '../data/buildings.json';
 import './BuildMenu.css';
 
 const BuildMenu = ({ onClose, onSelect, resources }) => {
-  const [buildings, setBuildings] = useState([]);
-
-  useEffect(() => {
-    // Filter buildings by current era
-    const currentEra = resources.era || 'village';
-    const availableBuildings = buildingsData.buildings.filter(
-      b => b.era === currentEra
-    );
-    setBuildings(availableBuildings);
-  }, [resources.era]);
+  // Compute buildings directly from resources.era - no need for state
+  const currentEra = resources.era || 'village';
+  const buildings = buildingsData.buildings.filter(
+    b => b.era === currentEra
+  );
 
   const canAfford = (building) => {
     for (const [resource, cost] of Object.entries(building.cost)) {

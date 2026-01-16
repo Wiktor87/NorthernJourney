@@ -196,7 +196,8 @@ export class BuildingSystem {
       
       // Apply effects (one-time or passive)
       if (building.definition.effects) {
-        for (const [effect, value] of Object.entries(building.definition.effects)) {
+        // Effects are applied passively through getTotalEffect()
+        for (const [effect] of Object.entries(building.definition.effects)) {
           if (effect.includes('cap') || effect.includes('capacity')) {
             // These are passive effects, handled elsewhere
             continue;

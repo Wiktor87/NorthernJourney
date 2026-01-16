@@ -218,7 +218,7 @@ export default class VillageScene extends Phaser.Scene {
   attemptBuildingPlacement(x, y) {
     if (!this.buildingSystem.selectedBuilding) return;
     
-    const buildingId = this.buildingSystem.selectedBuilding.id;
+    const selectedBuildingId = this.buildingSystem.selectedBuilding.id;
     
     // Validate placement
     if (!this.buildingSystem.isValidPlacement(x, y, this.buildingSystem.selectedBuilding, this.mapData)) {
@@ -227,18 +227,18 @@ export default class VillageScene extends Phaser.Scene {
     }
     
     // Place building
-    const success = this.buildingSystem.placeBuilding(x, y, buildingId, this.resourceManager);
+    const success = this.buildingSystem.placeBuilding(x, y, selectedBuildingId, this.resourceManager);
     
     if (success) {
       // Create building sprite
-      this.createBuildingSprite(x, y, buildingId);
+      this.createBuildingSprite(x, y);
       
       // Exit placement mode
       this.buildingSystem.exitPlacementMode();
     }
   }
 
-  createBuildingSprite(x, y, buildingId) {
+  createBuildingSprite(x, y) {
     const pos = this.getIsoPosition(x, y);
     const building = this.buildingSystem.buildings.find(b => b.x === x && b.y === y);
     
@@ -264,12 +264,11 @@ export default class VillageScene extends Phaser.Scene {
     this.seasonSystem.processTurn();
     
     // Process buildings
-    const production = this.buildingSystem.processTurn(this.resourceManager, seasonModifiers);
+    this.buildingSystem.processTurn(this.resourceManager, seasonModifiers);
     
     // Consumption
     const population = this.resourceManager.get('population');
     const foodConsumption = population * this.configData.consumption_rates.food_per_villager;
-    const currentFood = this.resourceManager.get('food');
     
     this.resourceManager.remove('food', foodConsumption);
     
@@ -358,13 +357,13 @@ export default class VillageScene extends Phaser.Scene {
     
     // Recreate building sprites
     this.buildingSystem.buildings.forEach(building => {
-      this.createBuildingSprite(building.x, building.y, building.id);
+      this.createBuildingSprite(building.x, building.y);
     });
     
     eventBridge.emit('game:loaded');
   }
 
-  update(time, delta) {
+  update() {
     // Camera movement
     const camSpeed = 5;
     

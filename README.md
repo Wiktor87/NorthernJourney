@@ -1,30 +1,39 @@
 # Northern Journey
 
-**A Norse fishing village resource management game**
+**A Data-Driven Norse Fishing Village Management Game**
 
-![Northern Journey](https://img.shields.io/badge/Status-MVP-blue) ![React](https://img.shields.io/badge/React-18.3-61dafb) ![Vite](https://img.shields.io/badge/Vite-6.0-646cff)
+![Northern Journey](https://img.shields.io/badge/Status-Alpha-blue) ![React](https://img.shields.io/badge/React-19.2-61dafb) ![Phaser](https://img.shields.io/badge/Phaser-3-ff6600) ![Vite](https://img.shields.io/badge/Vite-7.2-646cff)
 
-## 📖 Game Summary
+## 📖 About
 
-Northern Journey is an isometric browser-based resource management and strategy game set in a Norse fishing village called Fjordheim. Guide your villagers through the harsh northern winters, managing resources, making strategic decisions, and surviving random events.
+Northern Journey is an isometric resource management and survival game set in a harsh Norse fishing village. Guide your people through bitter winters, mythical encounters, and the path from struggling village to Viking kingdom.
 
-### Core Features
-- **Isometric Map Rendering**: 8x6 grid with water, grass, huts, villagers, and draugr
-- **Resource Management**: Balance food, wood, and morale to survive
-- **Turn-Based Gameplay**: Assign 5 villagers to fishing or woodcutting each turn
-- **Random Events**: Dynamic events that affect resources and morale
-- **Survival Mechanics**: Villagers die from starvation; game over if all die or morale reaches zero
-- **Event Log**: Track your decisions and their consequences
+**Key Features:**
+- **Isometric Phaser 3 Game Canvas** - Beautiful isometric rendering with building placement
+- **React UI Overlays** - Clean, responsive UI for resource management and dialogues
+- **Data-Driven Content System** - Add buildings, creatures, events, and dialogues via JSON files—no coding required!
+- **Branching Dialogues** - Encounter trolls, gnomes, and other mythical beings with meaningful choices
+- **Seasonal Cycles** - Each season affects resource production and spawns unique events
+- **Story Progression** - Evolve from village → settlement → town → kingdom
+- **Save/Load System** - Your progress is automatically saved to local storage
+
+## 🎮 Play Now
+
+[**Play Northern Journey on GitHub Pages**](https://wiktor87.github.io/NorthernJourney/)
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v16 or higher)
 - npm (comes with Node.js)
 
 ### Installation & Running
 
 ```bash
+# Clone the repository
+git clone https://github.com/Wiktor87/NorthernJourney.git
+cd NorthernJourney
+
 # Install dependencies
 npm install
 
@@ -40,204 +49,267 @@ npm run preview
 
 The game will open at `http://localhost:5173/`
 
-### Deployment to GitHub Pages
+## 🎯 How to Play
 
-This project is configured for easy deployment to GitHub Pages.
+### Basic Controls
+- **WASD / Arrow Keys**: Pan camera around the village
+- **Mouse**: Click to interact with tiles and buildings
+- **End Turn Button**: Process the turn and advance time
+- **Build Button**: Open building menu
 
-#### Manual Deployment
+### Gameplay Loop
 
-To manually deploy to GitHub Pages:
+1. **Manage Resources**: Keep track of food, wood, morale, and population
+2. **Build Structures**: Place buildings to increase production and capacity
+3. **Survive Events**: Make choices during random events that affect your village
+4. **Encounter Creatures**: Meet trolls, gnomes, and draugr with branching dialogues
+5. **Progress Through Eras**: Grow from village to settlement to town to kingdom
+
+### Victory & Defeat
+
+- **Game Over**: Occurs when all villagers die (starvation) or morale reaches 0
+- **Goal**: Survive as many turns as possible and advance through eras
+
+## 🛠️ For Content Creators
+
+**No coding required!** Northern Journey is designed for easy content modification.
+
+### 📝 For Writers: Adding Content
+
+All game content is in JSON files in `src/data/`:
+
+- **Events** (`src/data/events/`) - Add random events, seasonal events, and story beats
+- **Dialogues** (`src/data/dialogues/`) - Create branching conversation trees
+- **Lore** - Integrated into events and dialogues
+
+See [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) for complete instructions.
+
+**Example**: Adding a new random event:
+```json
+{
+  "id": "mysterious_fog",
+  "title": "Strange Fog",
+  "description": "An eerie fog rolls in from the sea...",
+  "probability": 0.1,
+  "season": ["autumn", "winter"],
+  "effects": {
+    "morale": -5
+  }
+}
+```
+
+### 🎨 For Artists: Replacing Artwork
+
+Currently using placeholder colored rectangles. Replace with your art:
+
+1. Create PNG files following specifications in `src/assets/README.md`
+2. Place in appropriate directory (e.g., `src/assets/sprites/buildings/`)
+3. Match the naming convention (e.g., `fishing_hut.png`)
+4. Refresh the game - your art appears automatically!
+
+**Tile Specs**: 64x32 pixels (isometric diamond)  
+**Building Specs**: 64x48 base size (varies by building)  
+**Creature Specs**: 32-64 pixels square  
+
+See [src/assets/README.md](./src/assets/README.md) for complete specifications.
+
+### 🏗️ For Game Designers: Adding Buildings
+
+Edit `src/data/buildings.json`:
+
+```json
+{
+  "id": "mead_hall",
+  "name": "Mead Hall",
+  "description": "A place for warriors to feast and sing.",
+  "era": "settlement",
+  "cost": {
+    "wood": 40,
+    "stone": 20
+  },
+  "effects": {
+    "morale": 15
+  },
+  "sprite": "buildings/mead_hall"
+}
+```
+
+Buildings automatically appear in the build menu when requirements are met!
+
+### 🐉 For Creature Designers: Adding Encounters
+
+Edit `src/data/creatures.json`:
+
+```json
+{
+  "id": "ice_giant",
+  "name": "Ice Giant",
+  "hostility": "hostile",
+  "spawn_conditions": {
+    "season": ["winter"],
+    "min_era": "settlement"
+  },
+  "combat_stats": {
+    "health": 150,
+    "attack": 20
+  }
+}
+```
+
+See [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) for complete guide.
+
+## 🔧 For Developers
+
+### Architecture Overview
+
+```
+src/
+├── game/                    # Phaser 3 game code
+│   ├── config.js           # Phaser configuration
+│   ├── EventBridge.js      # React ↔ Phaser communication
+│   ├── PhaserGame.jsx      # React wrapper for Phaser
+│   ├── scenes/             # Phaser scenes
+│   │   ├── BootScene.js    # Asset loading
+│   │   ├── MainMenuScene.js
+│   │   └── VillageScene.js # Main gameplay
+│   └── systems/            # Game logic systems
+│       ├── ResourceManager.js
+│       ├── BuildingSystem.js
+│       ├── EventSystem.js
+│       ├── DialogueSystem.js
+│       ├── SeasonSystem.js
+│       └── CreatureSystem.js
+│
+├── components/              # React UI components
+│   ├── GameContainer.jsx   # Main container
+│   ├── ResourcePanel.jsx   # Resource display
+│   ├── BuildMenu.jsx       # Building selection
+│   ├── DialogueBox.jsx     # Branching dialogues
+│   └── EventPopup.jsx      # Event notifications
+│
+├── data/                    # Content files (JSON)
+│   ├── buildings.json
+│   ├── creatures.json
+│   ├── events/
+│   │   ├── random-events.json
+│   │   ├── seasonal-events.json
+│   │   └── story-events.json
+│   ├── dialogues/
+│   ├── seasons.json
+│   ├── progression.json
+│   └── config.json
+│
+└── assets/                  # Art and audio
+    └── README.md           # Asset specifications
+```
+
+### Key Technologies
+
+- **Phaser 3** - Game engine for isometric rendering
+- **React 19** - UI framework
+- **Vite 7** - Build tool & dev server
+- **LocalStorage** - Save/load functionality
+
+### Communication Layer
+
+The `EventBridge` enables bidirectional communication between Phaser and React:
+
+```javascript
+// Phaser emits to React
+eventBridge.emit('resources:updated', { food: 10, wood: 5 });
+
+// React listens
+eventBridge.on('resources:updated', (data) => {
+  updateUI(data);
+});
+
+// React emits to Phaser
+eventBridge.emit('building:select', { buildingId: 'fishing_hut' });
+```
+
+### Game Systems
+
+Each system is modular and loads data from JSON:
+
+- **ResourceManager**: Tracks and manages all resources
+- **BuildingSystem**: Handles building placement, validation, and production
+- **EventSystem**: Triggers random and story events
+- **DialogueSystem**: Manages branching conversation trees
+- **SeasonSystem**: Handles seasonal cycles and effects
+- **CreatureSystem**: Spawns and manages creature encounters
+
+### Extending the Game
+
+1. **Adding New Resource Types**: Edit `src/data/resources.json`
+2. **Adding New Seasons**: Edit `src/data/seasons.json`
+3. **Modifying Game Balance**: Edit `src/data/config.json`
+4. **Custom Game Systems**: Extend existing systems or create new ones
+
+See the codebase—all files are heavily commented!
+
+## 📦 Deployment
+
+### GitHub Pages (Automatic)
+
+Pushes to `main` automatically deploy via GitHub Actions:
+
+1. Go to Settings → Pages
+2. Set Source to `gh-pages` branch
+3. Push to `main` branch
+4. Game deploys automatically!
+
+### Manual Deployment
 
 ```bash
 npm run deploy
 ```
 
-This will build the project and push it to the `gh-pages` branch.
+## 🗺️ Roadmap
 
-#### Automatic Deployment
-
-The project includes a GitHub Actions workflow that automatically builds and deploys to GitHub Pages on every push to the `main` branch.
-
-**To enable automatic deployment:**
-
-1. Go to your repository's Settings → Pages
-2. Under "Build and deployment", set:
-   - **Source**: Deploy from a branch
-   - **Branch**: `gh-pages`
-   - **Folder**: `/ (root)`
-3. Click Save
-
-After the first push to `main`, your game will be available at:
-`https://<username>.github.io/NorthernJourney/`
-
-**Note**: The first deployment may take a few minutes. Check the "Actions" tab to monitor the deployment progress.
-
-## 🎮 How to Play
-
-1. **Start the Game**: The game begins with 5 villagers, 10 food, 5 wood, and 70 morale
-2. **Assign Villagers**: Each turn, assign villagers to:
-   - **Fishing**: Produces 2 food per villager
-   - **Woodcutting**: Produces 2 wood per villager
-3. **End Turn**: Click "End Turn" to process the turn
-4. **Survive**: Each villager consumes 1 food per turn. Keep resources positive!
-5. **Watch for Events**: Random events can help or hinder your progress
-
-### Victory & Defeat
-- **Game Over**: Occurs when all villagers die or morale reaches 0
-- **Goal**: Survive as many turns as possible
-
-## 🎨 For Artists: Replacing Artwork
-
-All game artwork is stored in `/public/isometric/tiles/` as PNG files. Simply replace these files with your own artwork (keeping the same filenames):
-
-### Tile Files
-- `water.png` - Water tiles (fishing areas)
-- `grass.png` - Grass/land tiles
-- `hut.png` - Village huts
-- `villager.png` - Villager icon
-- `draugr.png` - Draugr (undead) icon
-
-### Recommended Specifications
-- **Format**: PNG with transparency (RGBA)
-- **Dimensions**: 64x32 pixels (isometric diamond shape)
-- **Style**: Keep tiles recognizable and distinct
-
-### Testing Your Art
-1. Replace the PNG files in `/public/isometric/tiles/`
-2. Refresh your browser (Ctrl+R or Cmd+R)
-3. Your new artwork will appear immediately!
-
-No code changes needed - just replace the image files!
-
-## ✍️ For Writers: Editing Lore & Events
-
-All game text, lore, and events are stored in easy-to-edit files:
-
-### Lore File
-**Location**: `/src/lore/intro.md`
-
-This Markdown file contains the game's introduction text. Edit it to change:
-- Village name and backstory
-- Game instructions
-- Thematic flavor text
-
-### Events File
-**Location**: `/src/lore/events.json`
-
-This JSON file defines all random events. Each event has:
-
-```json
-{
-  "id": "unique_event_id",
-  "title": "Event Title",
-  "description": "What happens during this event",
-  "probability": 0.15,
-  "effects": {
-    "food": 3,
-    "wood": 0,
-    "morale": 1
-  }
-}
-```
-
-**Fields:**
-- `id`: Unique identifier (no spaces)
-- `title`: Event name shown to player
-- `description`: Event description shown to player
-- `probability`: Chance of occurring (0.0 to 1.0, where 0.15 = 15% chance)
-- `effects`: Resource changes (can be negative)
-  - `food`: Change to food supply
-  - `wood`: Change to wood supply
-  - `morale`: Change to morale
-
-### Adding New Events
-1. Open `/src/lore/events.json`
-2. Add a new event object to the `events` array
-3. Save the file - changes appear immediately in development mode!
-
-### Testing Your Changes
-- Lore changes appear on game start
-- Event changes take effect immediately
-- Adjust `probability` values to make events more/less common
-
-## 🛠️ For Developers: Code Structure
-
-### Project Structure
-```
-/public/isometric/tiles/  # Artwork (PNG files)
-/src/
-  /components/           # React components
-    GameScreen.jsx       # Main game container
-    IsometricMap.jsx     # Map rendering
-    ResourcePanel.jsx    # Resource display
-    VillagerPanel.jsx    # Villager assignment
-    EventLog.jsx         # Event history
-  /lore/                 # Game content
-    intro.md            # Introduction text
-    events.json         # Random events
-  App.jsx               # Main game logic & state
-  App.css               # App styling
-  index.css             # Global styles
-  main.jsx              # Entry point
-```
-
-### Key Files to Modify
-
-**Game Balance** (`/src/App.jsx`):
-- `INITIAL_FOOD`, `INITIAL_WOOD`, `INITIAL_MORALE`, `INITIAL_POPULATION`
-- `FOOD_PER_FISHER`, `WOOD_PER_CUTTER`
-- `FOOD_CONSUMPTION_PER_VILLAGER`
-- `MORALE_PENALTY_STARVATION`
-- `RANDOM_EVENT_CHANCE`
-
-**Map Layout** (`/src/App.jsx` - `generateMap()` function):
-- Change map dimensions
-- Modify tile placement
-
-**Component Styling**:
-- Each component has its own `.css` file
-- Modify colors, layouts, and animations
-
-### Code Comments
-All code is heavily commented to explain:
-- What each function does
-- How game mechanics work
-- Where to make common modifications
-
-## 📦 Technologies Used
-
-- **React 18.3** - UI framework
-- **Vite 6.0** - Build tool & dev server
-- **CSS3** - Styling & animations
-- **JavaScript ES6+** - Game logic
-
-## 🎯 Roadmap Ideas
-
-Want to expand the game? Here are some ideas:
-
-- [ ] Add more resource types (metal, stone, etc.)
-- [ ] Implement building construction
-- [ ] Add combat with draugr
-- [ ] Create character progression/skills
-- [ ] Implement seasons/weather systems
-- [ ] Add trading mechanics
-- [ ] Multiplayer support
-- [ ] Save/load game functionality
+- [x] Isometric tilemap with Phaser 3
+- [x] Building placement system
+- [x] Resource management
+- [x] Random events
+- [x] Seasonal cycles
+- [x] Creature encounters
+- [x] Branching dialogues
+- [x] Save/load system
+- [x] Data-driven content system
+- [ ] Combat system
+- [ ] Trading system
+- [ ] Multiple maps/expeditions
+- [ ] More buildings and creatures
 - [ ] Achievement system
-- [ ] Multiple villages
+- [ ] Sound effects and music
+- [ ] Multiplayer (future)
 
-## 📝 License
+## 📝 Documentation
 
-This project is open source and available for modification and expansion.
+- **[CONTENT_GUIDE.md](./CONTENT_GUIDE.md)** - Complete guide for adding content without coding
+- **[src/assets/README.md](./src/assets/README.md)** - Asset specifications for artists
+- **Code Comments** - All code is heavily documented
 
 ## 🤝 Contributing
 
-This MVP is designed to be easily modified. Feel free to:
-- Replace artwork with your own
-- Write new events and lore
-- Adjust game balance
-- Add new features
+Contributions are welcome! Whether you're a:
+
+- **Writer**: Add events, dialogues, and lore
+- **Artist**: Replace placeholder art with custom sprites
+- **Designer**: Balance buildings and create new content
+- **Developer**: Improve systems and add features
+
+See [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) for non-coding contributions.
+
+## 📄 License
+
+This project is open source and available for modification and expansion.
+
+## 🙏 Acknowledgments
+
+- Phaser 3 framework
+- React team
+- Norse mythology and history
 
 ---
 
-**May the gods watch over Fjordheim!** ⚔️
+**May the gods watch over Fjordheim!** ⚔️ ❄️ 🏔️

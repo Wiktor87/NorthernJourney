@@ -183,7 +183,7 @@ export class DialogueSystem {
    */
   performSkillCheck(skillCheck, resourceManager) {
     // Simple skill check - can be expanded with actual skill system
-    const [skillName, requiredLevel] = Object.entries(skillCheck)[0];
+    const [, requiredLevel] = Object.entries(skillCheck)[0];
     
     // For now, use a random check with slight bias based on resource availability
     // In a full implementation, this would check actual character skills
