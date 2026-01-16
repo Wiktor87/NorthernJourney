@@ -95,13 +95,15 @@ export class VillagerSystem {
         duration: duration,
         ease: 'Sine.inOut',
         onComplete: () => {
-          setTimeout(wander, 1000 + Math.random() * 2000);
+          if (sprite.active) {
+            this.scene.time.delayedCall(1000 + Math.random() * 2000, wander);
+          }
         }
       });
     };
 
     // Start wandering after a random delay
-    setTimeout(wander, Math.random() * 2000);
+    this.scene.time.delayedCall(Math.random() * 2000, wander);
   }
 
   /**

@@ -25,15 +25,19 @@ function BuildingContextMenu({ building, onClose, resources }) {
   if (!building) return null;
 
   const handleAssignWorker = () => {
-    eventBridge.emit('building:assign_worker', { buildingId: building.id });
+    // Use coordinate-based ID as fallback
+    const buildingId = building.id || `${building.x},${building.y}`;
+    eventBridge.emit('building:assign_worker', { buildingId });
   };
 
   const handleRemoveWorker = () => {
-    eventBridge.emit('building:remove_worker', { buildingId: building.id });
+    const buildingId = building.id || `${building.x},${building.y}`;
+    eventBridge.emit('building:remove_worker', { buildingId });
   };
 
   const handleUpgrade = () => {
-    eventBridge.emit('building:upgrade', { buildingId: building.id });
+    const buildingId = building.id || `${building.x},${building.y}`;
+    eventBridge.emit('building:upgrade', { buildingId });
   };
 
   const maxWorkers = building.definition.workers?.max || 0;

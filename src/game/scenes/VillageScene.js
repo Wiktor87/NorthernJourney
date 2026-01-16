@@ -113,7 +113,7 @@ export default class VillageScene extends Phaser.Scene {
     this.buildingSystem.placeStartingBuilding(14, 9, 'villager_hut');
     
     // Fishing dock adjacent to water (water starts at y=16, so y=15 is adjacent)
-    this.buildingSystem.placeStartingBuilding(12, 14, 'fishing_dock');
+    this.buildingSystem.placeStartingBuilding(12, 15, 'fishing_dock');
     
     // Boat on water (y >= 16 is water)
     this.buildingSystem.placeStartingBuilding(12, 16, 'boat');
