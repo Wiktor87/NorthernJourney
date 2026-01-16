@@ -180,6 +180,7 @@ export default class VillageScene extends Phaser.Scene {
           tree.setOrigin(0.5, 1); // Bottom-center anchor for proper depth
           tree.setData('gridX', x);
           tree.setData('gridY', y);
+          tile.setScale(0.1);
           tree.setDepth(y * 100 + x); // Depth sorting for isometric view
           
           this.trees.push(tree);
