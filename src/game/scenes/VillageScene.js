@@ -112,11 +112,11 @@ export default class VillageScene extends Phaser.Scene {
     this.buildingSystem.placeStartingBuilding(12, 7, 'villager_hut');
     this.buildingSystem.placeStartingBuilding(14, 9, 'villager_hut');
     
-    // Fishing dock extending into water
-    this.buildingSystem.placeStartingBuilding(12, 15, 'fishing_dock');
+    // Fishing dock adjacent to water (water starts at y=16, so y=15 is adjacent)
+    this.buildingSystem.placeStartingBuilding(12, 14, 'fishing_dock');
     
-    // Boat near the dock
-    this.buildingSystem.placeStartingBuilding(12, 17, 'boat');
+    // Boat on water (y >= 16 is water)
+    this.buildingSystem.placeStartingBuilding(12, 16, 'boat');
     
     // Well in village center
     this.buildingSystem.placeStartingBuilding(12, 10, 'well');
@@ -233,6 +233,9 @@ export default class VillageScene extends Phaser.Scene {
     eventBridge.on('building:select', (data) => this.handleBuildingSelection(data));
     eventBridge.on('dialogue:choice', (data) => this.handleDialogueChoice(data));
     eventBridge.on('creature:interact', (data) => this.handleCreatureInteraction(data));
+    eventBridge.on('building:assign_worker', (data) => this.handleAssignWorker(data));
+    eventBridge.on('building:remove_worker', (data) => this.handleRemoveWorker(data));
+    eventBridge.on('building:upgrade', (data) => this.handleBuildingUpgrade(data));
   }
 
   handleMapClick(pointer) {
@@ -378,6 +381,40 @@ export default class VillageScene extends Phaser.Scene {
   handleCreatureInteraction(data) {
     const { creatureId } = data;
     this.creatureSystem.interactWithCreature(creatureId);
+  }
+
+  handleAssignWorker(data) {
+    const building = this.buildingSystem.buildings.find(b => 
+      b.id === data.buildingId || (b.x + ',' + b.y) === data.buildingId
+    );
+    
+    if (building) {
+      const maxWorkers = building.definition.workers?.max || 0;
+      if (building.workers < maxWorkers) {
+        building.workers++;
+        eventBridge.emit('building:worker_assigned', { building });
+        // Force UI update
+        this.resourceManager.emitUpdate();
+      }
+    }
+  }
+
+  handleRemoveWorker(data) {
+    const building = this.buildingSystem.buildings.find(b => 
+      b.id === data.buildingId || (b.x + ',' + b.y) === data.buildingId
+    );
+    
+    if (building && building.workers > 0) {
+      building.workers--;
+      eventBridge.emit('building:worker_removed', { building });
+      // Force UI update
+      this.resourceManager.emitUpdate();
+    }
+  }
+
+  handleBuildingUpgrade(data) {
+    // TODO: Implement building upgrade system
+    console.log('Building upgrade not yet implemented:', data);
   }
 
   checkGameOver() {

@@ -88,11 +88,14 @@ function BuildingContextMenu({ building, onClose, resources }) {
           {building.definition.production && Object.keys(building.definition.production).length > 0 && building.constructionTurnsLeft === 0 && (
             <div className="production-section">
               <h4>Production per Turn</h4>
-              {Object.entries(building.definition.production).map(([resource, amount]) => (
-                <p key={resource}>
-                  {resource}: +{amount * (currentWorkers || 1)}
-                </p>
-              ))}
+              {Object.entries(building.definition.production).map(([resource, amount]) => {
+                const workers = maxWorkers > 0 ? currentWorkers : 1;
+                return (
+                  <p key={resource}>
+                    {resource}: +{amount * workers}
+                  </p>
+                );
+              })}
             </div>
           )}
 
