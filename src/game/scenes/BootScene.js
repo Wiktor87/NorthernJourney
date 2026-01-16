@@ -52,21 +52,28 @@ export default class BootScene extends Phaser.Scene {
     });
     
     // Load new sprite assets
-    // Ground tiles
-    this.load.image('tile_snow_ground_01', '/NorthernJourney/assets/T_Ground_Snow_01.png');
-    this.load.image('tile_snow_ground_02', '/NorthernJourney/assets/T_Ground_Snow_02.png');
+    // Ground tiles - Load with keys that match usage in VillageScene
+    // Note: tile_grass is loaded with snow sprite for consistency (referenced in creatures.json)
+    this.load.image('tile_grass', 'assets/T_Ground_Snow_01.png'); // Main grass tile replaced with snow
+    this.load.image('tile_snow_ground_01', 'assets/T_Ground_Snow_01.png');
+    this.load.image('tile_snow_ground_02', 'assets/T_Ground_Snow_02.png');
     
     // Trees
-    this.load.image('tree_pine_snow_01', '/NorthernJourney/assets/T_Tree_Pine_Snow_01.png');
-    this.load.image('tree_pine_snow_02', '/NorthernJourney/assets/T_Tree_Pine_Snow_02.png');
-    this.load.image('tree_pine_snow_03', '/NorthernJourney/assets/T_Tree_Pine_Snow_03.png');
-    this.load.image('tree_pine_snow_04', '/NorthernJourney/assets/T_Tree_Pine_Snow_04.png');
-    this.load.image('tree_pine_snow_05', '/NorthernJourney/assets/T_Tree_Pine_Snow_05.png');
+    this.load.image('tree_pine_snow_01', 'assets/T_Tree_Pine_Snow_01.png');
+    this.load.image('tree_pine_snow_02', 'assets/T_Tree_Pine_Snow_02.png');
+    this.load.image('tree_pine_snow_03', 'assets/T_Tree_Pine_Snow_03.png');
+    this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
+    this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
     
-    // Buildings
-    this.load.image('buildings/residential_house_snow_01', '/NorthernJourney/assets/T_ResidentialHouse_Snow_01.png');
-    this.load.image('buildings/residential_house_snow_02', '/NorthernJourney/assets/T_ResidentialHouse_Snow_02.png');
-    this.load.image('buildings/well_snow', '/NorthernJourney/assets/T_Well_Snow_02.png');
+    // Buildings - Load with both base keys (used by building system) and variant keys (used for snow theme)
+    // Note: Phaser's texture manager efficiently handles multiple keys pointing to the same file
+    // Villager hut: base key + snow variants for randomization in VillageScene
+    this.load.image('buildings/villager_hut', 'assets/T_ResidentialHouse_Snow_01.png');
+    this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
+    this.load.image('buildings/residential_house_snow_02', 'assets/T_ResidentialHouse_Snow_02.png');
+    // Well: base key + snow variant
+    this.load.image('buildings/well', 'assets/T_Well_Snow_02.png');
+    this.load.image('buildings/well_snow', 'assets/T_Well_Snow_02.png');
     
     // Update loading bar
     this.load.on('progress', (value) => {
@@ -126,6 +133,7 @@ export default class BootScene extends Phaser.Scene {
 
   generatePlaceholders() {
     // Generate colored placeholder graphics for game elements
+    // Only create placeholders for textures that don't already exist
     
     // Snow tiles - use loaded assets if available, otherwise create placeholders
     // The loaded assets have keys: tile_snow_ground_01, tile_snow_ground_02
@@ -138,12 +146,8 @@ export default class BootScene extends Phaser.Scene {
       snowTexture.destroy();
     }
     
-    // Grass tile (green) - keeping for variety/compatibility
-    const grassTexture = this.add.graphics();
-    grassTexture.fillStyle(0x4a7c3b, 1);
-    grassTexture.fillRect(0, 0, 64, 32);
-    grassTexture.generateTexture('tile_grass', 64, 32);
-    grassTexture.destroy();
+    // Grass tile - already loaded as snow sprite in preload(), skip placeholder
+    // Don't create placeholder for tile_grass - it's now using the snow sprite
     
     // Water tile (blue)
     const waterTexture = this.add.graphics();
@@ -201,12 +205,8 @@ export default class BootScene extends Phaser.Scene {
     storageTexture.generateTexture('buildings/storage', 64, 48);
     storageTexture.destroy();
     
-    // Building - Villager Hut (tan)
-    const villagerHutTexture = this.add.graphics();
-    villagerHutTexture.fillStyle(0xd2b48c, 1);
-    villagerHutTexture.fillRect(0, 0, 64, 48);
-    villagerHutTexture.generateTexture('buildings/villager_hut', 64, 48);
-    villagerHutTexture.destroy();
+    // Building - Villager Hut - already loaded as snow sprite, skip placeholder
+    // Don't create placeholder - using loaded snow residential house sprites
     
     // Building - Longhouse (dark wood)
     const longhouseTexture = this.add.graphics();
@@ -222,12 +222,8 @@ export default class BootScene extends Phaser.Scene {
     palisadeTexture.generateTexture('buildings/palisade_wall', 64, 48);
     palisadeTexture.destroy();
     
-    // Building - Well (stone gray)
-    const wellTexture = this.add.graphics();
-    wellTexture.fillStyle(0x888888, 1);
-    wellTexture.fillRect(0, 0, 48, 48);
-    wellTexture.generateTexture('buildings/well', 48, 48);
-    wellTexture.destroy();
+    // Building - Well - already loaded as snow sprite, skip placeholder
+    // Don't create placeholder - using loaded snow well sprite
     
     // Building - Dock (brown wood)
     const dockTexture = this.add.graphics();
