@@ -1,6 +1,9 @@
 import React from 'react';
 import './ResourcePanel.css';
 
+// Default resource values
+const DEFAULT_MORALE = 50;
+
 /**
  * ResourcePanel Component
  * 
@@ -20,12 +23,12 @@ import './ResourcePanel.css';
  * - Dread (Sanity) 👁 - Rises with danger, lowered by morale
  */
 const ResourcePanel = ({ resources }) => {
-  const { food = 0, wood = 0, morale = 50, turn = 0, population = 0 } = resources;
+  const { food = 0, wood = 0, morale = DEFAULT_MORALE, turn = 0, population = 0 } = resources;
 
   // Map existing resources to new themed names
   const warmth = wood; // Wood represents fuel for warmth
   const sustenance = food; // Food represents sustenance
-  const dread = Math.max(0, 100 - (morale || 50)); // Dread is inverse of morale
+  const dread = Math.max(0, 100 - (morale || DEFAULT_MORALE)); // Dread is inverse of morale
 
   /**
    * Get color class based on resource amount
