@@ -165,6 +165,28 @@ export default class VillageScene extends Phaser.Scene {
     
     // Create container for buildings and creatures
     this.entityContainer = this.add.container(centerX, centerY - 100);
+    
+    // Add snow pine trees in forest areas
+    this.trees = [];
+    for (let y = 0; y < this.mapHeight; y++) {
+      for (let x = 0; x < this.mapWidth; x++) {
+        const tileType = this.mapData[y][x];
+        
+        if (tileType === 'forest') {
+          const pos = this.getIsoPosition(x, y);
+          // Randomly select a tree variant
+          const treeVariant = Math.floor(Math.random() * 5) + 1;
+          const tree = this.add.sprite(pos.x, pos.y, `tree_pine_snow_0${treeVariant}`);
+          tree.setOrigin(0.5, 1); // Bottom-center anchor for proper depth
+          tree.setData('gridX', x);
+          tree.setData('gridY', y);
+          tree.setDepth(y * 100 + x); // Depth sorting for isometric view
+          
+          this.trees.push(tree);
+          this.entityContainer.add(tree);
+        }
+      }
+    }
   }
 
   generateMapData() {
@@ -195,9 +217,9 @@ export default class VillageScene extends Phaser.Scene {
         else if (y === 11 && x >= 8 && x <= 16) {
           row.push('path');
         }
-        // Grass everywhere else
+        // Snow ground everywhere else (randomly choose between variants)
         else {
-          row.push('grass');
+          row.push(Math.random() < 0.5 ? 'snow_ground_01' : 'snow_ground_02');
         }
       }
       map.push(row);
@@ -299,9 +321,20 @@ export default class VillageScene extends Phaser.Scene {
     
     if (!building) return;
     
-    const sprite = this.add.sprite(pos.x, pos.y - 16, building.definition.sprite);
+    // Map building types to snow-themed sprites where available
+    let spriteKey = building.definition.sprite;
+    if (building.definition.id === 'villager_hut') {
+      // Use snow residential house sprites
+      spriteKey = Math.random() < 0.5 ? 'buildings/residential_house_snow_01' : 'buildings/residential_house_snow_02';
+    } else if (building.definition.id === 'well') {
+      // Use snow well sprite
+      spriteKey = 'buildings/well_snow';
+    }
+    
+    const sprite = this.add.sprite(pos.x, pos.y - 16, spriteKey);
     sprite.setOrigin(0.5, 1);
     sprite.setData('building', building);
+    sprite.setDepth(y * 100 + x); // Depth sorting for isometric view
     
     this.entityContainer.add(sprite);
   }
