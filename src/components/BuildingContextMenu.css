@@ -1,13 +1,39 @@
+/* BuildingContextMenu - Wooden Info Plaque Style */
+
 .building-context-menu {
-  background: #1a1a2e;
-  border: 2px solid #4a7c3b;
+  background: linear-gradient(180deg, var(--bg-wood-dark) 0%, var(--bg-dark) 100%);
+  border: 4px solid var(--bg-wood-light);
   border-radius: 8px;
   padding: 20px;
-  min-width: 300px;
-  max-width: 400px;
+  min-width: 320px;
+  max-width: 420px;
   max-height: 80vh;
   overflow-y: auto;
-  color: #ffffff;
+  color: var(--text-bone);
+  box-shadow: var(--shadow-deep);
+  position: relative;
+}
+
+/* Corner rivets */
+.building-context-menu::before,
+.building-context-menu::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--metal-bronze);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.building-context-menu::before {
+  top: 8px;
+  left: 8px;
+}
+
+.building-context-menu::after {
+  top: 8px;
+  right: 8px;
 }
 
 .menu-header {
@@ -15,31 +41,40 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  border-bottom: 1px solid #4a7c3b;
+  border-bottom: 2px solid var(--metal-bronze);
   padding-bottom: 10px;
 }
 
 .menu-header h3 {
   margin: 0;
-  color: #4a7c3b;
+  color: var(--metal-gold);
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .close-btn {
-  background: none;
-  border: none;
-  color: #ffffff;
+  background: linear-gradient(180deg, var(--bg-wood-light) 0%, var(--bg-wood-dark) 100%);
+  border: 2px solid var(--metal-iron);
+  color: var(--text-bone);
   font-size: 24px;
   cursor: pointer;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .close-btn:hover {
-  color: #ff6666;
+  background: linear-gradient(180deg, var(--color-danger) 0%, #6b1010 100%);
+  border-color: var(--color-danger);
+  transform: scale(1.1);
 }
 
 .menu-content {
@@ -49,29 +84,39 @@
 }
 
 .building-description {
-  color: #cccccc;
+  color: var(--text-parchment);
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-style: italic;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  border-left: 4px solid var(--metal-bronze);
 }
 
 .construction-status {
-  background: #2a2a3e;
-  padding: 10px;
+  background: rgba(196, 90, 32, 0.3);
+  padding: 12px;
   border-radius: 4px;
-  border-left: 3px solid #ffaa00;
+  border: 2px solid var(--color-warmth);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .construction-status p {
   margin: 5px 0;
+  color: var(--text-bone);
+  font-weight: bold;
 }
 
 .workers-section,
 .production-section,
 .effects-section,
 .upgrade-section {
-  background: #2a2a3e;
-  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 12px;
   border-radius: 4px;
+  border: 2px solid var(--bg-wood-light);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .workers-section h4,
@@ -79,9 +124,20 @@
 .effects-section h4,
 .upgrade-section h4 {
   margin: 0 0 10px 0;
-  color: #88ccff;
+  color: var(--metal-bronze);
   font-size: 14px;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--metal-bronze);
+  padding-bottom: 5px;
+}
+
+.workers-section p,
+.production-section p,
+.effects-section p {
+  margin: 5px 0;
+  font-size: 13px;
+  color: var(--text-parchment);
 }
 
 .worker-buttons {
@@ -92,23 +148,65 @@
 
 .worker-buttons button {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   font-size: 12px;
+  background: linear-gradient(180deg, var(--bg-wood-light) 0%, var(--bg-wood-dark) 100%);
+  border: 2px solid var(--metal-iron);
+  color: var(--text-bone);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.worker-buttons button:hover:not(:disabled) {
+  background: linear-gradient(180deg, #4d4540 0%, var(--bg-wood-light) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+.worker-buttons button:active:not(:disabled) {
+  background: linear-gradient(180deg, var(--bg-wood-dark) 0%, #1d1510 100%);
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .worker-buttons button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
 }
 
-.production-section p,
+.production-section p {
+  color: var(--color-success);
+  font-weight: bold;
+}
+
 .effects-section p {
-  margin: 5px 0;
-  font-size: 13px;
-  color: #aaffaa;
+  color: var(--color-supernatural);
+  font-weight: bold;
 }
 
 .upgrade-section button {
   width: 100%;
   margin-top: 5px;
+  padding: 12px;
+  background: linear-gradient(180deg, var(--metal-bronze) 0%, var(--bg-wood-dark) 100%);
+  border: 2px solid var(--metal-gold);
+  color: var(--text-bone);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.upgrade-section button:hover {
+  background: linear-gradient(180deg, var(--metal-gold) 0%, var(--metal-bronze) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
 }

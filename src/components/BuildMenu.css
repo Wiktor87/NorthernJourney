@@ -1,27 +1,50 @@
+/* BuildMenu - Norse Longhouse Plaque Style */
+
 .build-menu {
   min-width: 500px;
   max-width: 700px;
+  background: linear-gradient(180deg, var(--bg-wood-dark) 0%, var(--bg-dark) 100%);
+  border: 4px solid var(--bg-wood-light);
+  box-shadow: var(--shadow-deep);
+  position: relative;
 }
 
 .build-menu h2 {
   margin-top: 0;
-  color: #4a7c3b;
+  color: var(--metal-gold);
+  text-align: center;
+  font-size: 26px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  border-bottom: 2px solid var(--metal-bronze);
+  padding-bottom: 10px;
 }
 
 .close-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: transparent;
-  border: none;
-  color: #ffffff;
+  background: linear-gradient(180deg, var(--bg-wood-light) 0%, var(--bg-wood-dark) 100%);
+  border: 2px solid var(--metal-iron);
+  color: var(--text-bone);
   font-size: 24px;
   cursor: pointer;
   padding: 5px 10px;
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .close-btn:hover {
-  color: #ff6666;
+  background: linear-gradient(180deg, var(--color-danger) 0%, #6b1010 100%);
+  border-color: var(--color-danger);
+  transform: scale(1.1);
 }
 
 .building-list {
@@ -30,48 +53,115 @@
   gap: 15px;
   max-height: 500px;
   overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Custom scrollbar */
+.building-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.building-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+
+.building-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--metal-bronze) 0%, var(--bg-wood-dark) 100%);
+  border-radius: 4px;
 }
 
 .building-item {
-  background: rgba(0, 0, 0, 0.5);
-  border: 2px solid #4a7c3b;
-  border-radius: 8px;
+  background: linear-gradient(180deg, var(--bg-wood-light) 0%, var(--bg-wood-dark) 100%);
+  border: 3px solid var(--bg-wood-light);
+  border-radius: 4px;
   padding: 15px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+/* Plaque rivets */
+.building-item::before,
+.building-item::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--metal-iron);
+  border-radius: 50%;
+  top: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.building-item::before {
+  left: 8px;
+}
+
+.building-item::after {
+  right: 8px;
 }
 
 .building-item:hover {
-  border-color: #5c9c4b;
-  background: rgba(74, 124, 59, 0.2);
+  border-color: var(--metal-bronze);
+  background: linear-gradient(180deg, #4d4540 0%, var(--bg-wood-light) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.8);
 }
 
 .building-item.unaffordable {
   opacity: 0.5;
   cursor: not-allowed;
-  border-color: #666666;
+  border-color: var(--metal-iron);
+  background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
 }
 
 .building-item.unaffordable:hover {
-  border-color: #666666;
-  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--metal-iron);
+  background: linear-gradient(180deg, var(--bg-medium) 0%, var(--bg-dark) 100%);
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Frost overlay for unaffordable buildings */
+.building-item.unaffordable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    transparent 0%, 
+    rgba(160, 192, 208, 0.2) 50%, 
+    transparent 100%
+  );
+  pointer-events: none;
+  border-radius: 2px;
 }
 
 .building-item h3 {
   margin: 0 0 8px 0;
-  color: #ffffff;
+  color: var(--text-bone);
+  font-size: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .building-description {
   margin: 0 0 12px 0;
-  color: #cccccc;
+  color: var(--text-parchment);
   font-size: 14px;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 .building-stats {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   font-size: 13px;
 }
 
@@ -83,32 +173,52 @@
   gap: 8px;
 }
 
+.building-cost strong,
+.building-production strong,
+.building-effects strong {
+  color: var(--metal-bronze);
+  margin-right: 8px;
+}
+
 .cost-item,
 .production-item,
 .effect-item {
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 3px;
   font-size: 12px;
+  font-weight: bold;
+  border: 2px solid;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .cost-item {
-  background: rgba(139, 69, 19, 0.4);
-  color: #ffcc99;
+  background: rgba(139, 69, 19, 0.3);
+  border-color: var(--bg-wood-dark);
+  color: var(--text-parchment);
 }
 
 .production-item {
-  background: rgba(74, 124, 59, 0.4);
+  background: rgba(107, 139, 75, 0.3);
+  border-color: var(--color-success);
   color: #99ff99;
 }
 
 .effect-item {
-  background: rgba(59, 92, 124, 0.4);
+  background: rgba(74, 106, 106, 0.3);
+  border-color: var(--color-supernatural);
   color: #99ccff;
 }
 
 .insufficient-resources {
   margin-top: 8px;
-  color: #ff6666;
-  font-size: 12px;
+  color: var(--color-danger);
+  font-size: 13px;
   font-weight: bold;
+  text-align: center;
+  background: rgba(139, 32, 32, 0.3);
+  padding: 6px;
+  border-radius: 3px;
+  border: 2px solid var(--color-danger);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }

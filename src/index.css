@@ -1,7 +1,8 @@
-/* Northern Journey - Global Styles */
+/* Northern Journey - Global Styles - Norse/Viking Theme */
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Typography */
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -9,6 +10,40 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Backgrounds */
+  --bg-darkest: #0d0d10;
+  --bg-dark: #1a1a1e;
+  --bg-medium: #252530;
+  --bg-wood-dark: #2d2520;
+  --bg-wood-light: #3d3530;
+  
+  /* Metals */
+  --metal-iron: #4a4a4a;
+  --metal-bronze: #8b7355;
+  --metal-gold: #d4a020;
+  
+  /* Text */
+  --text-parchment: #d4c4a8;
+  --text-bone: #e8e0d0;
+  --text-faded: #8a8070;
+  
+  /* Status Colors */
+  --color-warmth: #c45a20;
+  --color-sustenance: #4a8060;
+  --color-dread: #6b1c1c;
+  --color-danger: #8b2020;
+  --color-success: #6b8b4b;
+  --color-frost: #a0c0d0;
+  --color-supernatural: #4a6b6b;
+  
+  /* Borders */
+  --border-wood: 3px solid #3d3530;
+  --border-iron: 2px solid #4a4a4a;
+  
+  /* Shadows */
+  --shadow-deep: 0 4px 12px rgba(0, 0, 0, 0.8);
+  --shadow-inset: inset 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 * {
@@ -23,8 +58,8 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #0f2027;
-  color: #ecf0f1;
+  background: var(--bg-darkest);
+  color: var(--text-bone);
 }
 
 body {
@@ -39,7 +74,60 @@ button {
 
 button:focus,
 button:focus-visible {
-  outline: 2px solid #3498db;
+  outline: 2px solid var(--metal-bronze);
   outline-offset: 2px;
+}
+
+/* Norse decorative elements */
+.rivet {
+  width: 8px;
+  height: 8px;
+  background: var(--metal-iron);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Frost overlay for low warmth */
+.frost-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, transparent 40%, rgba(160, 192, 208, 0.15) 100%);
+  pointer-events: none;
+  z-index: 9999;
+  animation: frostCreep 3s ease-in-out infinite;
+}
+
+@keyframes frostCreep {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Dread vignette for high dread */
+.dread-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, transparent 30%, rgba(107, 28, 28, 0.4) 100%);
+  pointer-events: none;
+  z-index: 9998;
+  animation: dreadPulse 4s ease-in-out infinite;
+}
+
+@keyframes dreadPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 
