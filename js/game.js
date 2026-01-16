@@ -57,25 +57,25 @@ let cameraControls = {
     cameraStartY: 0
 };
 
-// Preload assets - Using all existing sprites from assets folder
+// Preload assets - Using all existing sprites from public/assets folder
 function preload() {
     mainScene = this;
     
-    // Load ground tiles (from assets/)
-    this.load.image('ground_snow_1', 'assets/T_Ground_Snow_01.png');
-    this.load.image('ground_snow_2', 'assets/T_Ground_Snow_02.png');
+    // Load ground tiles (from public/assets/)
+    this.load.image('ground_snow_1', 'public/assets/T_Ground_Snow_01.png');
+    this.load.image('ground_snow_2', 'public/assets/T_Ground_Snow_02.png');
     
-    // Load trees (from assets/)
-    this.load.image('tree_1', 'assets/T_Tree_Pine_Snow_01.png');
-    this.load.image('tree_2', 'assets/T_Tree_Pine_Snow_02.png');
-    this.load.image('tree_3', 'assets/T_Tree_Pine_Snow_03.png');
-    this.load.image('tree_4', 'assets/T_Tree_Pine_Snow_04.png');
-    this.load.image('tree_5', 'assets/T_Tree_Pine_Snow_05.png');
+    // Load trees (from public/assets/)
+    this.load.image('tree_1', 'public/assets/T_Tree_Pine_Snow_01.png');
+    this.load.image('tree_2', 'public/assets/T_Tree_Pine_Snow_02.png');
+    this.load.image('tree_3', 'public/assets/T_Tree_Pine_Snow_03.png');
+    this.load.image('tree_4', 'public/assets/T_Tree_Pine_Snow_04.png');
+    this.load.image('tree_5', 'public/assets/T_Tree_Pine_Snow_05.png');
     
-    // Load buildings (from assets/)
-    this.load.image('house_1', 'assets/T_ResidentialHouse_Snow_01.png');
-    this.load.image('house_2', 'assets/T_ResidentialHouse_Snow_02.png');
-    this.load.image('well', 'assets/T_Well_Snow_02.png');
+    // Load buildings (from public/assets/)
+    this.load.image('house_1', 'public/assets/T_ResidentialHouse_Snow_01.png');
+    this.load.image('house_2', 'public/assets/T_ResidentialHouse_Snow_02.png');
+    this.load.image('well', 'public/assets/T_Well_Snow_02.png');
 }
 
 // Create the game world
