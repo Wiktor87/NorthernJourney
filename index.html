@@ -1,13 +1,74 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Northern Journey</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./src/main.jsx"></script>
-  </body>
+    <title>Northern Journey - A Norse Fishing Village Saga</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="game-header">
+            <h1>⚔️ Northern Journey ⚔️</h1>
+            <p>A Norse Fishing Village Saga</p>
+        </header>
+
+        <!-- Main game area -->
+        <div class="game-main">
+            <!-- Left side - Phaser game -->
+            <div class="game-canvas-area">
+                <div id="phaser-container"></div>
+                
+                <!-- Overlay controls -->
+                <div class="game-controls" id="game-controls">
+                    <button class="btn-primary" id="btn-end-turn">End Turn</button>
+                    <button class="btn-secondary" id="btn-build">Build</button>
+                </div>
+            </div>
+
+            <!-- Right side - UI panels -->
+            <div class="game-ui-area">
+                <div id="resource-panel" class="resource-panel"></div>
+                <div id="game-over-panel" class="game-over-panel" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Overlays -->
+        <div id="build-menu" class="build-menu" style="display: none;"></div>
+        <div id="event-popup" class="event-popup" style="display: none;"></div>
+        <div id="dialogue-box" class="dialogue-box" style="display: none;"></div>
+        <div id="building-context-menu" class="building-context-menu" style="display: none;"></div>
+
+        <!-- Footer -->
+        <footer class="game-footer">
+            <p>
+                Use WASD or Arrow Keys to pan camera • Click tiles to place buildings • 
+                Survive the harsh northern winters
+            </p>
+        </footer>
+    </div>
+
+    <!-- Load Phaser 3.90.0 -->
+    <!-- Option 1: From local lib folder (included for convenience) -->
+    <script src="lib/phaser.min.js"></script>
+    <!-- Option 2: From CDN (uncomment to use, comment out local version above) -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script> -->
+    
+    <!-- Load game files in order -->
+    <script src="js/EventBridge.js"></script>
+    <script src="js/systems/ResourceManager.js"></script>
+    <script src="js/systems/BuildingSystem.js"></script>
+    <script src="js/systems/EventSystem.js"></script>
+    <script src="js/systems/DialogueSystem.js"></script>
+    <script src="js/systems/SeasonSystem.js"></script>
+    <script src="js/systems/CreatureSystem.js"></script>
+    <script src="js/systems/VillagerSystem.js"></script>
+    <script src="js/scenes/BootScene.js"></script>
+    <script src="js/scenes/MainMenuScene.js"></script>
+    <script src="js/scenes/VillageScene.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
 </html>
