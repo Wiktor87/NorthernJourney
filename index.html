@@ -1,74 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Northern Journey - A Norse Fishing Village Saga</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="app">
-        <!-- Header -->
-        <header class="game-header">
-            <h1>⚔️ Northern Journey ⚔️</h1>
-            <p>A Norse Fishing Village Saga</p>
-        </header>
-
-        <!-- Main game area -->
-        <div class="game-main">
-            <!-- Left side - Phaser game -->
-            <div class="game-canvas-area">
-                <div id="phaser-container"></div>
-                
-                <!-- Overlay controls -->
-                <div class="game-controls" id="game-controls">
-                    <button class="btn-primary" id="btn-end-turn">End Turn</button>
-                    <button class="btn-secondary" id="btn-build">Build</button>
+    <!-- Top Bar -->
+    <div id="top-bar" class="top-bar">
+        <div class="top-bar-left">
+            <span id="date-display">Deep Winter, Day 1</span>
+            <span id="weather-display">❄️ Clear</span>
+            <span id="population-display">👥 15</span>
+        </div>
+        <div class="top-bar-center">
+            <div class="status-meter">
+                <span class="meter-icon">🔥</span>
+                <div class="meter-bar">
+                    <div class="meter-fill warmth" id="warmth-bar" style="width: 60%"></div>
                 </div>
+                <span class="meter-label">WARMTH</span>
             </div>
+            <div class="status-meter">
+                <span class="meter-icon">🍖</span>
+                <div class="meter-bar">
+                    <div class="meter-fill sustenance" id="sustenance-bar" style="width: 50%"></div>
+                </div>
+                <span class="meter-label">SUSTENANCE</span>
+            </div>
+            <div class="status-meter">
+                <span class="meter-icon">💀</span>
+                <div class="meter-bar">
+                    <div class="meter-fill dread" id="dread-bar" style="width: 20%"></div>
+                </div>
+                <span class="meter-label">DREAD</span>
+            </div>
+        </div>
+    </div>
 
-            <!-- Right side - UI panels -->
-            <div class="game-ui-area">
-                <div id="resource-panel" class="resource-panel"></div>
-                <div id="game-over-panel" class="game-over-panel" style="display: none;"></div>
+    <!-- Main Game Area -->
+    <div class="game-container">
+        <!-- Left Panel - Resources -->
+        <div class="left-panel">
+            <div class="panel-section">
+                <h3>⛏️ RESOURCES</h3>
+                <div class="resource-category">
+                    <h4>FUEL</h4>
+                    <div class="resource-item">
+                        <span>🪵 Driftwood:</span>
+                        <span id="driftwood">12</span>
+                    </div>
+                    <div class="resource-item">
+                        <span>🌲 Timber:</span>
+                        <span id="timber">8</span>
+                    </div>
+                </div>
+                <div class="resource-category">
+                    <h4>FOOD</h4>
+                    <div class="resource-item">
+                        <span>🐟 Dried Fish:</span>
+                        <span id="dried-fish">20</span>
+                    </div>
+                    <div class="resource-item">
+                        <span>❄️ Icicle Fish:</span>
+                        <span id="icicle-fish">5</span>
+                    </div>
+                    <div class="resource-item">
+                        <span>🥣 Porridge:</span>
+                        <span id="porridge">10</span>
+                    </div>
+                    <div class="resource-item">
+                        <span>🐄 Livestock:</span>
+                        <span id="livestock">3</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Overlays -->
-        <div id="build-menu" class="build-menu" style="display: none;"></div>
-        <div id="event-popup" class="event-popup" style="display: none;"></div>
-        <div id="dialogue-box" class="dialogue-box" style="display: none;"></div>
-        <div id="building-context-menu" class="building-context-menu" style="display: none;"></div>
+        <!-- Center - Phaser Game Canvas -->
+        <div id="game-canvas" class="game-canvas"></div>
 
-        <!-- Footer -->
-        <footer class="game-footer">
-            <p>
-                Use WASD or Arrow Keys to pan camera • Click tiles to place buildings • 
-                Survive the harsh northern winters
-            </p>
-        </footer>
+        <!-- Right Panel - Actions -->
+        <div class="right-panel">
+            <div class="panel-section">
+                <h3>🔨 BUILD</h3>
+                <button class="action-btn" onclick="window.game.build('smokehouse')">Smokehouse</button>
+                <button class="action-btn" onclick="window.game.build('palisade')">Palisade</button>
+                <button class="action-btn" onclick="window.game.build('pyre')">Pyre</button>
+            </div>
+            <div class="panel-section">
+                <h3>👥 MANAGE</h3>
+                <button class="action-btn" onclick="window.game.manage('jobs')">Jobs</button>
+                <button class="action-btn" onclick="window.game.manage('rationing')">Rationing</button>
+            </div>
+            <div class="panel-section">
+                <h3>⚡ RITUALS</h3>
+                <button class="action-btn" onclick="window.game.ritual('saga')">Tell Saga</button>
+                <button class="action-btn" onclick="window.game.ritual('sacrifice')">Sacrifice</button>
+                <button class="action-btn" onclick="window.game.ritual('feast')">Feast</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Load Phaser 3.90.0 -->
-    <!-- Option 1: From local lib folder (included for convenience) -->
-    <script src="lib/phaser.min.js"></script>
-    <!-- Option 2: From CDN (uncomment to use, comment out local version above) -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script> -->
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <!-- Event Log -->
+        <div class="event-log" id="event-log">
+            <div class="log-entry">&gt; Day 1: The village awakens to a cold dawn...</div>
+        </div>
+        
+        <!-- End Day Button -->
+        <div class="end-day-container">
+            <button class="btn-end-day" id="btn-end-day" onclick="window.game.endDay()">END DAY</button>
+        </div>
+    </div>
+
+    <!-- Event Popup (hidden by default) -->
+    <div id="event-popup" class="event-popup" style="display: none;">
+        <div class="event-content">
+            <div class="event-portrait">👤</div>
+            <h2 id="event-title">THE JARL'S COUNCIL</h2>
+            <p id="event-text">A dispute has arisen...</p>
+            <div class="event-choices">
+                <button class="choice-btn" onclick="window.game.chooseEvent(0)">Option 1</button>
+                <button class="choice-btn" onclick="window.game.chooseEvent(1)">Option 2</button>
+                <button class="choice-btn" onclick="window.game.chooseEvent(2)">Option 3</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Phaser 3 from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
     
-    <!-- Load game files in order -->
-    <script src="js/EventBridge.js"></script>
-    <script src="js/systems/ResourceManager.js"></script>
-    <script src="js/systems/BuildingSystem.js"></script>
-    <script src="js/systems/EventSystem.js"></script>
-    <script src="js/systems/DialogueSystem.js"></script>
-    <script src="js/systems/SeasonSystem.js"></script>
-    <script src="js/systems/CreatureSystem.js"></script>
-    <script src="js/systems/VillagerSystem.js"></script>
-    <script src="js/scenes/BootScene.js"></script>
-    <script src="js/scenes/MainMenuScene.js"></script>
-    <script src="js/scenes/VillageScene.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Load game code -->
+    <script src="js/game.js"></script>
 </body>
 </html>
