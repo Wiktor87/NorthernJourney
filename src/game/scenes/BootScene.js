@@ -47,30 +47,30 @@ preload() {
   this.registry.set('dialogue_gnome', gnomeDialogue);
   
   // Load YOUR custom sprites with the correct keys
-  this.load.image('tile_grass', '/assets/T_Ground_Snow_01.png');
-  this.load.image('tile_forest', '/assets/T_Ground_Snow_02.png');
-  this.load.image('tile_mountain', '/assets/T_Ground_Snow_02.png');
-  this.load.image('tile_path', '/assets/T_Ground_Snow_01.png');
-  this.load.image('tile_water', '/assets/T_Ground_Snow_01.png');
+  this.load.image('tile_grass', 'assets/T_Ground_Snow_01.png');
+  this.load.image('tile_forest', 'assets/T_Ground_Snow_02.png');
+  this.load.image('tile_mountain', 'assets/T_Ground_Snow_02.png');
+  this.load.image('tile_path', 'assets/T_Ground_Snow_01.png');
+  this.load.image('tile_water', 'assets/T_Ground_Snow_01.png');
   
   // Load tree sprites
-  this.load.image('tree_pine_snow_01', '/assets/T_Tree_Pine_Snow_01.png');
-  this.load.image('tree_pine_snow_02', '/assets/T_Tree_Pine_Snow_02.png');
-  this.load.image('tree_pine_snow_03', '/assets/T_Tree_Pine_Snow_03.png');
-  this.load.image('tree_pine_snow_04', '/assets/T_Tree_Pine_Snow_04.png');
-  this.load.image('tree_pine_snow_05', '/assets/T_Tree_Pine_Snow_05.png');
+  this.load.image('tree_pine_snow_01', 'assets/T_Tree_Pine_Snow_01.png');
+  this.load.image('tree_pine_snow_02', 'assets/T_Tree_Pine_Snow_02.png');
+  this.load.image('tree_pine_snow_03', 'assets/T_Tree_Pine_Snow_03.png');
+  this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
+  this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
   
   // Load building sprites
-  this.load. image('buildings/villager_hut', '/assets/T_ResidentialHouse_Snow_01.png');
-  this.load.image('buildings/longhouse', '/assets/T_ResidentialHouse_Snow_02.png');
-  this.load.image('buildings/well', '/assets/T_Well_Snow_02.png');
-  this.load.image('buildings/fishing_hut', '/assets/T_ResidentialHouse_Snow_01.png');
-  this.load.image('buildings/lumber_camp', '/assets/T_ResidentialHouse_Snow_02.png');
-  this.load.image('buildings/farm', '/assets/T_ResidentialHouse_Snow_02.png');
-  this.load.image('buildings/storage', '/assets/T_ResidentialHouse_Snow_01.png');
-  this.load.image('buildings/palisade_wall', '/assets/T_ResidentialHouse_Snow_02.png');
-  this.load.image('buildings/dock', '/assets/T_ResidentialHouse_Snow_02.png');
-  this.load.image('buildings/boat', '/assets/T_ResidentialHouse_Snow_01.png');
+  this.load. image('buildings/villager_hut', 'assets/T_ResidentialHouse_Snow_01.png');
+  this.load.image('buildings/longhouse', 'assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/well', 'assets/T_Well_Snow_02.png');
+  this.load.image('buildings/fishing_hut', 'assets/T_ResidentialHouse_Snow_01.png');
+  this.load.image('buildings/lumber_camp', 'assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/farm', 'assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/storage', 'assets/T_ResidentialHouse_Snow_01.png');
+  this.load.image('buildings/palisade_wall', 'assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/dock', 'assets/T_ResidentialHouse_Snow_02.png');
+  this.load.image('buildings/boat', 'assets/T_ResidentialHouse_Snow_01.png');
   
   // Load creature placeholders (keep these for now)
   // ...  existing creature loading code ...
