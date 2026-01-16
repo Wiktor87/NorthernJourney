@@ -51,27 +51,29 @@ export default class BootScene extends Phaser.Scene {
       console.error('Failed to load asset:', file.key, file.url);
     });
     
-    // Load new sprite assets
-    // Ground tiles - Load with keys that match usage in VillageScene
-    // Note: tile_grass is loaded with snow sprite for consistency (referenced in creatures.json)
-    this.load.image('tile_grass', 'assets/T_Ground_Snow_01.png'); // Main grass tile replaced with snow
+    // Load custom sprite assets with keys matching what the game actually uses
+    // Ground tiles - using your beautiful snowy diamond terrain tiles
+    this.load.image('tile_grass', 'assets/T_Ground_Snow_01.png');
+    this.load.image('tile_snow', 'assets/T_Ground_Snow_01.png');
     this.load.image('tile_snow_ground_01', 'assets/T_Ground_Snow_01.png');
     this.load.image('tile_snow_ground_02', 'assets/T_Ground_Snow_02.png');
+    this.load.image('tile_forest', 'assets/T_Ground_Snow_02.png');
+    this.load.image('tile_mountain', 'assets/T_Ground_Snow_02.png');
+    this.load.image('tile_path', 'assets/T_Ground_Snow_01.png');
+    this.load.image('tile_water', 'assets/T_Ground_Snow_02.png');
     
-    // Trees
+    // Trees - all 5 variants of your beautiful snow-covered pine trees
     this.load.image('tree_pine_snow_01', 'assets/T_Tree_Pine_Snow_01.png');
     this.load.image('tree_pine_snow_02', 'assets/T_Tree_Pine_Snow_02.png');
     this.load.image('tree_pine_snow_03', 'assets/T_Tree_Pine_Snow_03.png');
     this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
     this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
     
-    // Buildings - Load with both base keys (used by building system) and variant keys (used for snow theme)
-    // Note: Phaser's texture manager efficiently handles multiple keys pointing to the same file
-    // Villager hut: base key + snow variants for randomization in VillageScene
+    // Buildings - your detailed snowy structures
     this.load.image('buildings/villager_hut', 'assets/T_ResidentialHouse_Snow_01.png');
     this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
     this.load.image('buildings/residential_house_snow_02', 'assets/T_ResidentialHouse_Snow_02.png');
-    // Well: base key + snow variant
+    this.load.image('buildings/longhouse', 'assets/T_ResidentialHouse_Snow_02.png');
     this.load.image('buildings/well', 'assets/T_Well_Snow_02.png');
     this.load.image('buildings/well_snow', 'assets/T_Well_Snow_02.png');
     
@@ -91,8 +93,8 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
-    // Generate placeholder sprites
-    this.generatePlaceholders();
+    // Generate minimal placeholders only for assets without PNG sprites
+    this.generateMinimalPlaceholders();
     
     // Transition to main menu after a short delay
     this.time.delayedCall(500, () => {
@@ -131,142 +133,109 @@ export default class BootScene extends Phaser.Scene {
     });
   }
 
-  generatePlaceholders() {
-    // Generate colored placeholder graphics for game elements
-    // Only create placeholders for textures that don't already exist
+  generateMinimalPlaceholders() {
+    // Only generate placeholders for assets that don't have PNG sprites yet
+    // This ensures the custom sprites (ground, trees, houses, well) are NOT overwritten
     
-    // Snow tiles - use loaded assets if available, otherwise create placeholders
-    // The loaded assets have keys: tile_snow_ground_01, tile_snow_ground_02
-    // We'll create aliases for backward compatibility
-    if (!this.textures.exists('tile_snow')) {
-      const snowTexture = this.add.graphics();
-      snowTexture.fillStyle(0xf0f8ff, 1); // Light snow color
-      snowTexture.fillRect(0, 0, 64, 32);
-      snowTexture.generateTexture('tile_snow', 64, 32);
-      snowTexture.destroy();
+    // Building - Fishing Hut (brown) - only if not already loaded
+    if (!this.textures.exists('buildings/fishing_hut')) {
+      const fishingHutTexture = this.add.graphics();
+      fishingHutTexture.fillStyle(0x8b4513, 1);
+      fishingHutTexture.fillRect(0, 0, 64, 48);
+      fishingHutTexture.generateTexture('buildings/fishing_hut', 64, 48);
+      fishingHutTexture.destroy();
     }
     
-    // Grass tile - already loaded as snow sprite in preload(), skip placeholder
-    // Don't create placeholder for tile_grass - it's now using the snow sprite
-    
-    // Water tile (blue)
-    const waterTexture = this.add.graphics();
-    waterTexture.fillStyle(0x3b5c7c, 1);
-    waterTexture.fillRect(0, 0, 64, 32);
-    waterTexture.generateTexture('tile_water', 64, 32);
-    waterTexture.destroy();
-    
-    // Mountain tile (gray)
-    const mountainTexture = this.add.graphics();
-    mountainTexture.fillStyle(0x6c6c6c, 1);
-    mountainTexture.fillRect(0, 0, 64, 32);
-    mountainTexture.generateTexture('tile_mountain', 64, 32);
-    mountainTexture.destroy();
-    
-    // Forest tile - dark green
-    const forestTexture = this.add.graphics();
-    forestTexture.fillStyle(0x2d5016, 1);
-    forestTexture.fillRect(0, 0, 64, 32);
-    forestTexture.generateTexture('tile_forest', 64, 32);
-    forestTexture.destroy();
-
-    // Path tile - tan/brown
-    const pathTexture = this.add.graphics();
-    pathTexture.fillStyle(0x8B7355, 1);
-    pathTexture.fillRect(0, 0, 64, 32);
-    pathTexture.generateTexture('tile_path', 64, 32);
-    pathTexture.destroy();
-    
-    // Building - Fishing Hut (brown)
-    const fishingHutTexture = this.add.graphics();
-    fishingHutTexture.fillStyle(0x8b4513, 1);
-    fishingHutTexture.fillRect(0, 0, 64, 48);
-    fishingHutTexture.generateTexture('buildings/fishing_hut', 64, 48);
-    fishingHutTexture.destroy();
-    
     // Building - Lumber Camp (dark brown)
-    const lumberCampTexture = this.add.graphics();
-    lumberCampTexture.fillStyle(0x654321, 1);
-    lumberCampTexture.fillRect(0, 0, 64, 48);
-    lumberCampTexture.generateTexture('buildings/lumber_camp', 64, 48);
-    lumberCampTexture.destroy();
+    if (!this.textures.exists('buildings/lumber_camp')) {
+      const lumberCampTexture = this.add.graphics();
+      lumberCampTexture.fillStyle(0x654321, 1);
+      lumberCampTexture.fillRect(0, 0, 64, 48);
+      lumberCampTexture.generateTexture('buildings/lumber_camp', 64, 48);
+      lumberCampTexture.destroy();
+    }
     
     // Building - Farm (light brown)
-    const farmTexture = this.add.graphics();
-    farmTexture.fillStyle(0xdaa520, 1);
-    farmTexture.fillRect(0, 0, 128, 48);
-    farmTexture.generateTexture('buildings/farm', 128, 48);
-    farmTexture.destroy();
+    if (!this.textures.exists('buildings/farm')) {
+      const farmTexture = this.add.graphics();
+      farmTexture.fillStyle(0xdaa520, 1);
+      farmTexture.fillRect(0, 0, 128, 48);
+      farmTexture.generateTexture('buildings/farm', 128, 48);
+      farmTexture.destroy();
+    }
     
     // Building - Storage (gray-brown)
-    const storageTexture = this.add.graphics();
-    storageTexture.fillStyle(0x8b7355, 1);
-    storageTexture.fillRect(0, 0, 64, 48);
-    storageTexture.generateTexture('buildings/storage', 64, 48);
-    storageTexture.destroy();
-    
-    // Building - Villager Hut - already loaded as snow sprite, skip placeholder
-    // Don't create placeholder - using loaded snow residential house sprites
-    
-    // Building - Longhouse (dark wood)
-    const longhouseTexture = this.add.graphics();
-    longhouseTexture.fillStyle(0x5c3317, 1);
-    longhouseTexture.fillRect(0, 0, 192, 96);
-    longhouseTexture.generateTexture('buildings/longhouse', 192, 96);
-    longhouseTexture.destroy();
+    if (!this.textures.exists('buildings/storage')) {
+      const storageTexture = this.add.graphics();
+      storageTexture.fillStyle(0x8b7355, 1);
+      storageTexture.fillRect(0, 0, 64, 48);
+      storageTexture.generateTexture('buildings/storage', 64, 48);
+      storageTexture.destroy();
+    }
     
     // Building - Palisade Wall (brown sticks)
-    const palisadeTexture = this.add.graphics();
-    palisadeTexture.fillStyle(0x8b6914, 1);
-    palisadeTexture.fillRect(0, 0, 64, 48);
-    palisadeTexture.generateTexture('buildings/palisade_wall', 64, 48);
-    palisadeTexture.destroy();
-    
-    // Building - Well - already loaded as snow sprite, skip placeholder
-    // Don't create placeholder - using loaded snow well sprite
+    if (!this.textures.exists('buildings/palisade_wall')) {
+      const palisadeTexture = this.add.graphics();
+      palisadeTexture.fillStyle(0x8b6914, 1);
+      palisadeTexture.fillRect(0, 0, 64, 48);
+      palisadeTexture.generateTexture('buildings/palisade_wall', 64, 48);
+      palisadeTexture.destroy();
+    }
     
     // Building - Dock (brown wood)
-    const dockTexture = this.add.graphics();
-    dockTexture.fillStyle(0x8B6914, 1);
-    dockTexture.fillRect(0, 0, 128, 64);
-    dockTexture.generateTexture('buildings/dock', 128, 64);
-    dockTexture.destroy();
+    if (!this.textures.exists('buildings/dock')) {
+      const dockTexture = this.add.graphics();
+      dockTexture.fillStyle(0x8B6914, 1);
+      dockTexture.fillRect(0, 0, 128, 64);
+      dockTexture.generateTexture('buildings/dock', 128, 64);
+      dockTexture.destroy();
+    }
     
     // Building - Boat (dark wood)
-    const boatTexture = this.add.graphics();
-    boatTexture.fillStyle(0x654321, 1);
-    boatTexture.fillRect(0, 0, 64, 48);
-    boatTexture.generateTexture('buildings/boat', 64, 48);
-    boatTexture.destroy();
+    if (!this.textures.exists('buildings/boat')) {
+      const boatTexture = this.add.graphics();
+      boatTexture.fillStyle(0x654321, 1);
+      boatTexture.fillRect(0, 0, 64, 48);
+      boatTexture.generateTexture('buildings/boat', 64, 48);
+      boatTexture.destroy();
+    }
     
     // Creature - Troll (red)
-    const trollTexture = this.add.graphics();
-    trollTexture.fillStyle(0xff4444, 1);
-    trollTexture.fillRect(0, 0, 48, 48);
-    trollTexture.generateTexture('creatures/troll', 48, 48);
-    trollTexture.destroy();
+    if (!this.textures.exists('creatures/troll')) {
+      const trollTexture = this.add.graphics();
+      trollTexture.fillStyle(0xff4444, 1);
+      trollTexture.fillRect(0, 0, 48, 48);
+      trollTexture.generateTexture('creatures/troll', 48, 48);
+      trollTexture.destroy();
+    }
     
     // Creature - Gnome (yellow)
-    const gnomeTexture = this.add.graphics();
-    gnomeTexture.fillStyle(0xffdd44, 1);
-    gnomeTexture.fillRect(0, 0, 32, 32);
-    gnomeTexture.generateTexture('creatures/gnome', 32, 32);
-    gnomeTexture.destroy();
+    if (!this.textures.exists('creatures/gnome')) {
+      const gnomeTexture = this.add.graphics();
+      gnomeTexture.fillStyle(0xffdd44, 1);
+      gnomeTexture.fillRect(0, 0, 32, 32);
+      gnomeTexture.generateTexture('creatures/gnome', 32, 32);
+      gnomeTexture.destroy();
+    }
     
     // Creature - Draugr (dark red)
-    const draugrTexture = this.add.graphics();
-    draugrTexture.fillStyle(0x8b0000, 1);
-    draugrTexture.fillRect(0, 0, 48, 48);
-    draugrTexture.generateTexture('creatures/draugr', 48, 48);
-    draugrTexture.destroy();
+    if (!this.textures.exists('creatures/draugr')) {
+      const draugrTexture = this.add.graphics();
+      draugrTexture.fillStyle(0x8b0000, 1);
+      draugrTexture.fillRect(0, 0, 48, 48);
+      draugrTexture.generateTexture('creatures/draugr', 48, 48);
+      draugrTexture.destroy();
+    }
     
     // Villager sprite - simple humanoid shape
-    const villagerTexture = this.add.graphics();
-    villagerTexture.fillStyle(0xFFDBB4, 1); // Skin tone
-    villagerTexture.fillRect(8, 0, 16, 16); // Head
-    villagerTexture.fillStyle(0x4169E1, 1); // Blue tunic
-    villagerTexture.fillRect(4, 16, 24, 24); // Body
-    villagerTexture.generateTexture('villager', 32, 48);
-    villagerTexture.destroy();
+    if (!this.textures.exists('villager')) {
+      const villagerTexture = this.add.graphics();
+      villagerTexture.fillStyle(0xFFDBB4, 1); // Skin tone
+      villagerTexture.fillRect(8, 0, 16, 16); // Head
+      villagerTexture.fillStyle(0x4169E1, 1); // Blue tunic
+      villagerTexture.fillRect(4, 16, 24, 24); // Body
+      villagerTexture.generateTexture('villager', 32, 48);
+      villagerTexture.destroy();
+    }
   }
 }
