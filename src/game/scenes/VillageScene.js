@@ -13,6 +13,7 @@ import { EventSystem } from '../systems/EventSystem.js';
 import { DialogueSystem } from '../systems/DialogueSystem.js';
 import { SeasonSystem } from '../systems/SeasonSystem.js';
 import { CreatureSystem } from '../systems/CreatureSystem.js';
+import { VillagerSystem } from '../systems/VillagerSystem.js';
 
 export default class VillageScene extends Phaser.Scene {
   constructor() {
@@ -80,6 +81,7 @@ export default class VillageScene extends Phaser.Scene {
     this.dialogueSystem = new DialogueSystem(this);
     this.seasonSystem = new SeasonSystem(this);
     this.creatureSystem = new CreatureSystem(this);
+    this.villagerSystem = new VillagerSystem(this);
     
     // Initialize systems with data
     this.buildingSystem.init(this.buildingsData);
@@ -91,6 +93,7 @@ export default class VillageScene extends Phaser.Scene {
     );
     this.seasonSystem.init(this.seasonsData, this.configData);
     this.creatureSystem.init(this.creaturesData, this.configData);
+    this.villagerSystem.init();
     
     // Load dialogues
     const trollDialogue = this.registry.get('dialogue_troll');
@@ -122,6 +125,10 @@ export default class VillageScene extends Phaser.Scene {
     this.buildingSystem.buildings.forEach(building => {
       this.createBuildingSprite(building.x, building.y);
     });
+    
+    // Spawn initial villagers
+    const population = this.resourceManager.get('population');
+    this.villagerSystem.updateVillagers(population, this.buildingSystem.buildings);
     
     // Emit initial state
     eventBridge.emit('game:started');
@@ -306,8 +313,11 @@ export default class VillageScene extends Phaser.Scene {
     // Process buildings
     this.buildingSystem.processTurn(this.resourceManager, seasonModifiers);
     
-    // Consumption
+    // Update villagers based on population
     const population = this.resourceManager.get('population');
+    this.villagerSystem.updateVillagers(population, this.buildingSystem.buildings);
+    
+    // Consumption
     const foodConsumption = population * this.configData.consumption_rates.food_per_villager;
     
     this.resourceManager.remove('food', foodConsumption);
@@ -322,6 +332,9 @@ export default class VillageScene extends Phaser.Scene {
       this.resourceManager.remove('morale', 15);
       
       eventBridge.emit('event:starvation', { deaths });
+      
+      // Update villagers after deaths
+      this.villagerSystem.updateVillagers(this.resourceManager.get('population'), this.buildingSystem.buildings);
     }
     
     // Check for events (only after grace period)
@@ -383,7 +396,8 @@ export default class VillageScene extends Phaser.Scene {
       buildings: this.buildingSystem.getSaveState(),
       events: this.eventSystem.getSaveState(),
       season: this.seasonSystem.getSaveState(),
-      creatures: this.creatureSystem.getSaveState()
+      creatures: this.creatureSystem.getSaveState(),
+      villagers: this.villagerSystem.getSaveState()
     };
     
     localStorage.setItem('northernjourney_save', JSON.stringify(saveData));
@@ -401,6 +415,11 @@ export default class VillageScene extends Phaser.Scene {
     this.buildingSystem.buildings.forEach(building => {
       this.createBuildingSprite(building.x, building.y);
     });
+    
+    // Recreate villagers
+    if (saveData.villagers) {
+      this.villagerSystem.loadState(saveData.villagers, this.buildingSystem.buildings);
+    }
     
     eventBridge.emit('game:loaded');
   }
