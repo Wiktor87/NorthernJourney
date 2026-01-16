@@ -64,10 +64,12 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('tree_pine_snow_04', 'assets/T_Tree_Pine_Snow_04.png');
     this.load.image('tree_pine_snow_05', 'assets/T_Tree_Pine_Snow_05.png');
     
-    // Buildings - Use keys that match building system expectations
+    // Buildings - Load with both base keys (used by building system) and variant keys (used for snow theme)
+    // Villager hut: base key + snow variants for randomization in VillageScene
     this.load.image('buildings/villager_hut', 'assets/T_ResidentialHouse_Snow_01.png');
     this.load.image('buildings/residential_house_snow_01', 'assets/T_ResidentialHouse_Snow_01.png');
     this.load.image('buildings/residential_house_snow_02', 'assets/T_ResidentialHouse_Snow_02.png');
+    // Well: base key + snow variant
     this.load.image('buildings/well', 'assets/T_Well_Snow_02.png');
     this.load.image('buildings/well_snow', 'assets/T_Well_Snow_02.png');
     
