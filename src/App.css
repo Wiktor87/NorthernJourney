@@ -1,4 +1,4 @@
-/* Northern Journey - Main App Styles */
+/* Northern Journey - Main App Styles - Norse/Viking Theme */
 
 * {
   margin: 0;
@@ -7,14 +7,15 @@
 }
 
 body {
-  font-family: 'Arial', 'Helvetica', sans-serif;
-  background: #0f2027;
-  color: #ecf0f1;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+  background: var(--bg-darkest);
+  color: var(--text-bone);
 }
 
 .app {
   width: 100%;
   min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg-darkest) 0%, var(--bg-dark) 50%, var(--bg-darkest) 100%);
 }
 
 /* Remove default root styles that conflict */
