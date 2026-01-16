@@ -1,50 +1,81 @@
-/* EventLog Styling */
+/* EventLog - "The Saga" Chronicle Style */
 
 .event-log {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  border-radius: 10px;
+  background: linear-gradient(180deg, var(--bg-wood-dark) 0%, var(--bg-dark) 100%);
+  border-radius: 8px;
   padding: 20px;
   margin: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  border: 2px solid #9b59b6;
+  box-shadow: var(--shadow-deep);
+  border: 4px solid var(--bg-wood-light);
   height: 400px;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+/* Decorative corner rivets */
+.event-log::before,
+.event-log::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--metal-bronze);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.event-log::before {
+  top: 8px;
+  left: 8px;
+}
+
+.event-log::after {
+  top: 8px;
+  right: 8px;
 }
 
 .log-title {
-  color: #ecf0f1;
+  color: var(--metal-gold);
   text-align: center;
   margin-bottom: 15px;
-  font-size: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 22px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--metal-bronze);
+  padding-bottom: 10px;
 }
 
 .log-content {
   flex: 1;
   overflow-y: auto;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  border: 2px solid var(--bg-wood-light);
+  box-shadow: var(--shadow-inset);
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Norse themed */
 .log-content::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 .log-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
+  border: 1px solid var(--bg-wood-dark);
 }
 
 .log-content::-webkit-scrollbar-thumb {
-  background: #9b59b6;
+  background: linear-gradient(180deg, var(--metal-bronze) 0%, var(--bg-wood-dark) 100%);
   border-radius: 4px;
+  border: 1px solid var(--bg-wood-dark);
 }
 
 .log-content::-webkit-scrollbar-thumb:hover {
-  background: #8e44ad;
+  background: linear-gradient(180deg, var(--metal-gold) 0%, var(--metal-bronze) 100%);
 }
 
 .no-events {
@@ -52,23 +83,26 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #95a5a6;
+  color: var(--text-faded);
   font-style: italic;
   text-align: center;
+  font-size: 15px;
 }
 
 .log-entry {
   margin-bottom: 12px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 4px;
   border-left: 4px solid;
-  animation: slideIn 0.3s ease;
+  animation: sagaEntry 0.5s ease;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-@keyframes slideIn {
+@keyframes sagaEntry {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-30px);
   }
   to {
     opacity: 1;
@@ -77,23 +111,23 @@
 }
 
 .log-entry.event-info {
-  background: rgba(52, 152, 219, 0.2);
-  border-color: #3498db;
+  background: rgba(74, 106, 106, 0.2);
+  border-color: var(--color-supernatural);
 }
 
 .log-entry.event-success {
-  background: rgba(46, 204, 113, 0.2);
-  border-color: #2ecc71;
+  background: rgba(107, 139, 75, 0.2);
+  border-color: var(--color-success);
 }
 
 .log-entry.event-warning {
-  background: rgba(241, 196, 15, 0.2);
-  border-color: #f1c40f;
+  background: rgba(196, 90, 32, 0.2);
+  border-color: var(--color-warmth);
 }
 
 .log-entry.event-danger {
-  background: rgba(231, 76, 60, 0.2);
-  border-color: #e74c3c;
+  background: rgba(139, 32, 32, 0.2);
+  border-color: var(--color-danger);
 }
 
 .event-header {
@@ -106,17 +140,23 @@
 .event-icon {
   font-weight: bold;
   font-size: 18px;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.8));
 }
 
 .event-turn {
-  color: #bdc3c7;
-  font-size: 12px;
+  color: var(--metal-bronze);
+  font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 8px;
+  border-radius: 3px;
 }
 
 .event-message {
-  color: #ecf0f1;
+  color: var(--text-parchment);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
