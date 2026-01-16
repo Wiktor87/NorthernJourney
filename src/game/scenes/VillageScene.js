@@ -129,7 +129,10 @@ export default class VillageScene extends Phaser.Scene {
 
   createMap() {
     // Create container for isometric tiles
-    this.mapContainer = this.add.container(400, 100);
+    // Center the map based on screen dimensions
+    const centerX = this.cameras.main.width / 2;
+    const centerY = this.cameras.main.height / 2;
+    this.mapContainer = this.add.container(centerX, centerY - 100);
     
     // Generate map data
     this.mapData = this.generateMapData();
@@ -154,7 +157,7 @@ export default class VillageScene extends Phaser.Scene {
     }
     
     // Create container for buildings and creatures
-    this.entityContainer = this.add.container(400, 100);
+    this.entityContainer = this.add.container(centerX, centerY - 100);
   }
 
   generateMapData() {
@@ -203,8 +206,8 @@ export default class VillageScene extends Phaser.Scene {
   }
 
   setupCameraControls() {
-    // Enable camera dragging
-    this.cameras.main.setBounds(-400, -300, 1600, 1200);
+    // Enable camera dragging with larger bounds for bigger map
+    this.cameras.main.setBounds(-800, -600, 2400, 1800);
     
     // WASD keys for camera movement
     this.cursors = this.input.keyboard.createCursorKeys();
