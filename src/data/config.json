@@ -1,23 +1,23 @@
 {
   "starting_resources": {
-    "food": 15,
-    "wood": 10,
-    "stone": 0,
+    "food": 30,
+    "wood": 20,
+    "stone": 5,
     "gold": 0,
     "population": 5,
-    "morale": 70
+    "morale": 80
   },
   "consumption_rates": {
-    "food_per_villager": 1,
-    "wood_per_building_maintenance": 0.1
+    "food_per_villager": 0.5,
+    "wood_per_building_maintenance": 0.05
   },
   "production_multipliers": {
-    "fishing": 2,
+    "fishing": 3,
     "woodcutting": 2,
     "farming": 3,
     "mining": 1.5
   },
-  "season_duration_turns": 8,
+  "season_duration_turns": 10,
   "seasons": ["spring", "summer", "autumn", "winter"],
   "era_thresholds": {
     "settlement": {
@@ -35,6 +35,7 @@
       "raids_completed": 3
     }
   },
-  "event_check_chance": 0.4,
-  "creature_spawn_chance": 0.1
+  "event_check_chance": 0.25,
+  "creature_spawn_chance": 0.05,
+  "grace_period_turns": 3
 }

@@ -66,8 +66,8 @@ export default class VillageScene extends Phaser.Scene {
     this.progressionData = this.registry.get('progressionData');
     
     // Map dimensions
-    this.mapWidth = 12;
-    this.mapHeight = 10;
+    this.mapWidth = 24;
+    this.mapHeight = 20;
     this.tileWidth = 64;
     this.tileHeight = 32;
   }
@@ -102,6 +102,26 @@ export default class VillageScene extends Phaser.Scene {
   startNewGame() {
     // Initialize resources
     this.resourceManager.init(this.resourcesData, this.configData);
+    
+    // Place starting buildings
+    // 3 longhouses/villager huts in the village center
+    this.buildingSystem.placeStartingBuilding(10, 7, 'villager_hut');
+    this.buildingSystem.placeStartingBuilding(12, 7, 'villager_hut');
+    this.buildingSystem.placeStartingBuilding(14, 9, 'villager_hut');
+    
+    // Fishing dock extending into water
+    this.buildingSystem.placeStartingBuilding(12, 15, 'fishing_dock');
+    
+    // Boat near the dock
+    this.buildingSystem.placeStartingBuilding(12, 17, 'boat');
+    
+    // Well in village center
+    this.buildingSystem.placeStartingBuilding(12, 10, 'well');
+    
+    // Create sprites for starting buildings
+    this.buildingSystem.buildings.forEach(building => {
+      this.createBuildingSprite(building.x, building.y);
+    });
     
     // Emit initial state
     eventBridge.emit('game:started');
@@ -142,13 +162,28 @@ export default class VillageScene extends Phaser.Scene {
     for (let y = 0; y < this.mapHeight; y++) {
       const row = [];
       for (let x = 0; x < this.mapWidth; x++) {
-        // Water in bottom rows
-        if (y >= 8) {
+        // Forest at outer edges (2 layers)
+        if (x <= 1 || x >= this.mapWidth - 2 || y <= 1 || y >= this.mapHeight - 2) {
+          row.push('forest');
+        }
+        // Water in bottom section (near edge)
+        else if (y >= this.mapHeight - 4) {
           row.push('water');
         }
-        // Mountains at edges
-        else if (x === 0 || x === this.mapWidth - 1 || y === 0) {
+        // Mountains at inner edge (after forest)
+        else if (x === 2 || x === this.mapWidth - 3 || y === 2) {
           row.push('mountain');
+        }
+        // Path from center to water (vertical path)
+        else if (x === Math.floor(this.mapWidth / 2) && y >= 10) {
+          row.push('path');
+        }
+        // Horizontal paths in village center
+        else if (y === 8 && x >= 8 && x <= 16) {
+          row.push('path');
+        }
+        else if (y === 11 && x >= 8 && x <= 16) {
+          row.push('path');
         }
         // Grass everywhere else
         else {
@@ -259,6 +294,8 @@ export default class VillageScene extends Phaser.Scene {
     const currentSeason = this.seasonSystem.getCurrentSeasonId();
     const currentEra = this.resourceManager.get('era');
     const seasonModifiers = this.seasonSystem.getSeasonModifiers();
+    const currentTurn = this.resourceManager.get('turn');
+    const gracePeriod = this.configData.grace_period_turns || 3;
     
     // Process season
     this.seasonSystem.processTurn();
@@ -284,22 +321,24 @@ export default class VillageScene extends Phaser.Scene {
       eventBridge.emit('event:starvation', { deaths });
     }
     
-    // Check for events
-    const events = this.eventSystem.checkEvents(currentSeason, currentEra, this.resourceManager);
-    
-    if (events.length > 0) {
-      events.forEach(event => {
-        this.eventSystem.triggerEvent(event);
-        
-        // Apply automatic effects
-        if (!event.choices || event.choices.length === 0) {
-          this.eventSystem.applyEventEffects(event.effects, this.resourceManager);
-        }
-      });
+    // Check for events (only after grace period)
+    if (currentTurn > gracePeriod) {
+      const events = this.eventSystem.checkEvents(currentSeason, currentEra, this.resourceManager);
+      
+      if (events.length > 0) {
+        events.forEach(event => {
+          this.eventSystem.triggerEvent(event);
+          
+          // Apply automatic effects
+          if (!event.choices || event.choices.length === 0) {
+            this.eventSystem.applyEventEffects(event.effects, this.resourceManager);
+          }
+        });
+      }
+      
+      // Check for creature spawns (only after grace period)
+      this.creatureSystem.checkSpawns(currentSeason, currentEra);
     }
-    
-    // Check for creature spawns
-    this.creatureSystem.checkSpawns(currentSeason, currentEra);
     
     // Check game over
     this.checkGameOver();
