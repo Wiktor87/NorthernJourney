@@ -1,0 +1,40 @@
+{
+  "starting_resources": {
+    "food": 15,
+    "wood": 10,
+    "stone": 0,
+    "gold": 0,
+    "population": 5,
+    "morale": 70
+  },
+  "consumption_rates": {
+    "food_per_villager": 1,
+    "wood_per_building_maintenance": 0.1
+  },
+  "production_multipliers": {
+    "fishing": 2,
+    "woodcutting": 2,
+    "farming": 3,
+    "mining": 1.5
+  },
+  "season_duration_turns": 8,
+  "seasons": ["spring", "summer", "autumn", "winter"],
+  "era_thresholds": {
+    "settlement": {
+      "population": 20,
+      "buildings": 5
+    },
+    "town": {
+      "population": 50,
+      "buildings": 15,
+      "longhouse": true
+    },
+    "kingdom": {
+      "population": 100,
+      "shipyard": true,
+      "raids_completed": 3
+    }
+  },
+  "event_check_chance": 0.4,
+  "creature_spawn_chance": 0.1
+}

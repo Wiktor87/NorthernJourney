@@ -1,0 +1,150 @@
+{
+  "events": [
+    {
+      "id": "harsh_winter_storm",
+      "title": "Winter Storm",
+      "description": "A fierce blizzard descends upon the village...",
+      "era": ["village", "settlement"],
+      "season": ["winter"],
+      "probability": 0.15,
+      "conditions": {},
+      "effects": {
+        "food": -5,
+        "wood": -3,
+        "morale": -10
+      },
+      "choices": [
+        {
+          "text": "Huddle together for warmth",
+          "effects": {
+            "morale": 5
+          }
+        },
+        {
+          "text": "Send hunters out anyway",
+          "risk": 0.4,
+          "success_effects": {
+            "food": 8
+          },
+          "failure_effects": {
+            "population": -1
+          },
+          "failure_message": "A hunter was lost to the storm..."
+        }
+      ],
+      "triggers_dialogue": null
+    },
+    {
+      "id": "wandering_skald",
+      "title": "A Skald Arrives",
+      "description": "A wandering poet seeks shelter and offers tales of distant lands.",
+      "era": ["settlement", "town"],
+      "probability": 0.1,
+      "season": ["spring", "summer", "autumn"],
+      "effects": {},
+      "choices": [
+        {
+          "text": "Welcome them with mead and food",
+          "requires": {
+            "food": 3,
+            "mead": 1
+          },
+          "effects": {
+            "morale": 15,
+            "lore_unlocked": "distant_lands_1"
+          }
+        },
+        {
+          "text": "Turn them away",
+          "effects": {
+            "morale": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "bountiful_catch",
+      "title": "Bountiful Catch",
+      "description": "The fishers return with nets full of silvery fish!",
+      "era": ["village", "settlement", "town"],
+      "season": ["spring", "summer"],
+      "probability": 0.2,
+      "effects": {
+        "food": 10,
+        "morale": 5
+      },
+      "choices": []
+    },
+    {
+      "id": "tool_break",
+      "title": "Broken Tools",
+      "description": "Several important tools have broken and need replacement.",
+      "era": ["village", "settlement"],
+      "season": ["spring", "summer", "autumn", "winter"],
+      "probability": 0.12,
+      "effects": {
+        "wood": -5
+      },
+      "choices": [
+        {
+          "text": "Repair immediately",
+          "requires": {
+            "wood": 5
+          },
+          "effects": {
+            "morale": 3
+          }
+        },
+        {
+          "text": "Make do without",
+          "effects": {
+            "morale": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "mysterious_stranger",
+      "title": "Mysterious Stranger",
+      "description": "A hooded figure approaches the village offering strange wares.",
+      "era": ["village", "settlement", "town"],
+      "season": ["autumn"],
+      "probability": 0.08,
+      "effects": {},
+      "choices": [
+        {
+          "text": "Trade with the stranger",
+          "requires": {
+            "gold": 5
+          },
+          "risk": 0.5,
+          "success_effects": {
+            "gold": -5,
+            "rare_item": 1
+          },
+          "failure_effects": {
+            "gold": -5
+          },
+          "failure_message": "The stranger vanished with your gold!"
+        },
+        {
+          "text": "Send them away",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "id": "good_harvest",
+      "title": "Good Harvest",
+      "description": "The autumn harvest brings abundant crops.",
+      "era": ["village", "settlement", "town"],
+      "season": ["autumn"],
+      "probability": 0.18,
+      "effects": {
+        "food": 15,
+        "morale": 8
+      },
+      "choices": []
+    }
+  ]
+}

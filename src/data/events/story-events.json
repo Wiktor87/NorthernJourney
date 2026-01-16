@@ -1,0 +1,41 @@
+{
+  "events": [
+    {
+      "id": "first_visitor",
+      "title": "First Visitor",
+      "description": "A traveler brings news of other settlements.",
+      "trigger_conditions": {
+        "population": 10,
+        "flag": "!first_visitor_met"
+      },
+      "effects": {
+        "morale": 5
+      },
+      "sets_flag": "first_visitor_met",
+      "unlocks": ["trade_routes"]
+    },
+    {
+      "id": "becoming_settlement",
+      "title": "Growing Settlement",
+      "description": "Your village has grown into a proper settlement!",
+      "trigger_conditions": {
+        "population": 20,
+        "buildings": 5
+      },
+      "effects": {
+        "morale": 20
+      },
+      "unlocks": ["settlement_buildings"]
+    },
+    {
+      "id": "first_raid",
+      "title": "Raiders Spotted!",
+      "description": "Hostile forces approach from the sea...",
+      "trigger_conditions": {
+        "era": "settlement",
+        "flag": "!first_raid_survived"
+      },
+      "triggers_dialogue": "events/first_raid.json"
+    }
+  ]
+}

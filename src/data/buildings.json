@@ -1,0 +1,192 @@
+{
+  "buildings": [
+    {
+      "id": "fishing_hut",
+      "name": "Fishing Hut",
+      "description": "A simple hut for drying fish and storing nets.",
+      "era": "village",
+      "cost": {
+        "wood": 10
+      },
+      "production": {
+        "food": 2
+      },
+      "consumption": {},
+      "workers": {
+        "min": 0,
+        "max": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      },
+      "sprite": "buildings/fishing_hut",
+      "buildTime": 1,
+      "unlocks": [],
+      "upgrades_to": "fishing_dock",
+      "placement_rules": ["adjacent_to_water"]
+    },
+    {
+      "id": "lumber_camp",
+      "name": "Lumber Camp",
+      "description": "A clearing where woodcutters process timber.",
+      "era": "village",
+      "cost": {
+        "wood": 8
+      },
+      "production": {
+        "wood": 2
+      },
+      "consumption": {},
+      "workers": {
+        "min": 0,
+        "max": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      },
+      "sprite": "buildings/lumber_camp",
+      "buildTime": 1,
+      "unlocks": [],
+      "upgrades_to": "sawmill",
+      "placement_rules": ["not_adjacent_to_water"]
+    },
+    {
+      "id": "farm",
+      "name": "Farm",
+      "description": "Cultivated fields for growing crops.",
+      "era": "village",
+      "cost": {
+        "wood": 15
+      },
+      "production": {
+        "food": 3
+      },
+      "consumption": {},
+      "workers": {
+        "min": 1,
+        "max": 3
+      },
+      "size": {
+        "width": 2,
+        "height": 1
+      },
+      "sprite": "buildings/farm",
+      "buildTime": 2,
+      "unlocks": [],
+      "upgrades_to": null,
+      "placement_rules": ["not_adjacent_to_water"]
+    },
+    {
+      "id": "storage",
+      "name": "Storage",
+      "description": "A sturdy building for storing resources.",
+      "era": "village",
+      "cost": {
+        "wood": 12
+      },
+      "production": {},
+      "consumption": {},
+      "effects": {
+        "storage_capacity": 50
+      },
+      "workers": {
+        "min": 0,
+        "max": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      },
+      "sprite": "buildings/storage",
+      "buildTime": 1,
+      "unlocks": [],
+      "upgrades_to": "warehouse",
+      "placement_rules": []
+    },
+    {
+      "id": "villager_hut",
+      "name": "Villager Hut",
+      "description": "Simple dwelling for villagers.",
+      "era": "village",
+      "cost": {
+        "wood": 10
+      },
+      "production": {},
+      "consumption": {},
+      "effects": {
+        "population_cap": 3
+      },
+      "workers": {
+        "min": 0,
+        "max": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      },
+      "sprite": "buildings/villager_hut",
+      "buildTime": 1,
+      "unlocks": [],
+      "upgrades_to": "longhouse",
+      "placement_rules": []
+    },
+    {
+      "id": "longhouse",
+      "name": "Longhouse",
+      "description": "A great hall where warriors feast and skalds sing.",
+      "era": "settlement",
+      "cost": {
+        "wood": 50,
+        "stone": 20
+      },
+      "production": {},
+      "consumption": {},
+      "effects": {
+        "morale": 10,
+        "population_cap": 10
+      },
+      "workers": {
+        "min": 0,
+        "max": 0
+      },
+      "size": {
+        "width": 3,
+        "height": 2
+      },
+      "sprite": "buildings/longhouse",
+      "buildTime": 3,
+      "unlocks": ["mead_hall", "warrior_training"],
+      "upgrades_to": null,
+      "placement_rules": []
+    },
+    {
+      "id": "palisade_wall",
+      "name": "Palisade Wall",
+      "description": "Wooden wall providing basic defense.",
+      "era": "village",
+      "cost": {
+        "wood": 5
+      },
+      "production": {},
+      "consumption": {},
+      "effects": {
+        "defense": 5
+      },
+      "workers": {
+        "min": 0,
+        "max": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      },
+      "sprite": "buildings/palisade_wall",
+      "buildTime": 1,
+      "unlocks": [],
+      "upgrades_to": "stone_wall",
+      "placement_rules": []
+    }
+  ]
+}

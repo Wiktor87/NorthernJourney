@@ -1,0 +1,82 @@
+{
+  "creatures": [
+    {
+      "id": "troll",
+      "name": "Mountain Troll",
+      "description": "A massive creature of stone and spite.",
+      "hostility": "neutral",
+      "sprite": "creatures/troll",
+      "portrait": "portraits/troll",
+      "spawn_conditions": {
+        "terrain": ["mountain", "forest"],
+        "season": ["autumn", "winter"],
+        "min_era": "village"
+      },
+      "interactions": ["dialogue", "combat", "tribute"],
+      "dialogue_file": "creatures/troll_encounter.json",
+      "combat_stats": {
+        "health": 100,
+        "attack": 15,
+        "defense": 10
+      },
+      "drops": {
+        "stone": 20,
+        "troll_hide": 1
+      },
+      "tribute_cost": {
+        "gold": 10,
+        "food": 5
+      }
+    },
+    {
+      "id": "gnome",
+      "name": "Forest Gnome",
+      "description": "Small folk with ancient knowledge of crafting.",
+      "hostility": "friendly",
+      "sprite": "creatures/gnome",
+      "portrait": "portraits/gnome",
+      "spawn_conditions": {
+        "terrain": ["forest"],
+        "season": ["spring", "summer", "autumn"],
+        "min_era": "village"
+      },
+      "interactions": ["dialogue", "trade"],
+      "dialogue_file": "creatures/gnome_encounter.json",
+      "trade_offers": [
+        {
+          "gives": {
+            "enchanted_tools": 1
+          },
+          "wants": {
+            "food": 20,
+            "mead": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "draugr",
+      "name": "Draugr",
+      "description": "Restless undead warrior seeking vengeance.",
+      "hostility": "hostile",
+      "sprite": "creatures/draugr",
+      "portrait": "portraits/draugr",
+      "spawn_conditions": {
+        "terrain": ["grass", "mountain"],
+        "season": ["winter"],
+        "min_era": "village"
+      },
+      "interactions": ["combat"],
+      "dialogue_file": null,
+      "combat_stats": {
+        "health": 50,
+        "attack": 10,
+        "defense": 5
+      },
+      "drops": {
+        "gold": 5,
+        "ancient_weapon": 0.3
+      }
+    }
+  ]
+}

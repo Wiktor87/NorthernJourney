@@ -1,0 +1,51 @@
+{
+  "resources": [
+    {
+      "id": "food",
+      "name": "Food",
+      "icon": "🍖",
+      "description": "Sustenance for your villagers. Each villager consumes 1 food per turn.",
+      "starting_amount": 15,
+      "stackable": true,
+      "perishable": false
+    },
+    {
+      "id": "wood",
+      "name": "Wood",
+      "icon": "🪵",
+      "description": "Essential material for building and repairs.",
+      "starting_amount": 10,
+      "stackable": true,
+      "perishable": false
+    },
+    {
+      "id": "stone",
+      "name": "Stone",
+      "icon": "🪨",
+      "description": "Sturdy material for advanced buildings and fortifications.",
+      "starting_amount": 0,
+      "stackable": true,
+      "perishable": false
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "icon": "💰",
+      "description": "Precious metal for trade and tribute.",
+      "starting_amount": 0,
+      "stackable": true,
+      "perishable": false
+    },
+    {
+      "id": "morale",
+      "name": "Morale",
+      "icon": "❤️",
+      "description": "The spirit of your people. Low morale leads to abandonment.",
+      "starting_amount": 70,
+      "min": 0,
+      "max": 100,
+      "stackable": false,
+      "perishable": false
+    }
+  ]
+}
