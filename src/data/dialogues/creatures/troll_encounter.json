@@ -1,0 +1,105 @@
+{
+  "id": "troll_encounter",
+  "start_node": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "troll",
+      "portrait": "troll_angry",
+      "text": "WHO DARES CROSS MY MOUNTAIN? You small-folk have forgotten the old ways...",
+      "choices": [
+        {
+          "text": "We mean no harm. Accept this tribute.",
+          "requires": {
+            "gold": 10
+          },
+          "effects": {
+            "gold": -10,
+            "troll_reputation": 10
+          },
+          "next": "tribute_accepted"
+        },
+        {
+          "text": "We bow to no troll! Warriors, attack!",
+          "requires": {
+            "warriors": 3
+          },
+          "next": "combat_start"
+        },
+        {
+          "text": "Great one, we seek passage. What would you ask of us?",
+          "skill_check": {
+            "diplomacy": 5
+          },
+          "success": "negotiate",
+          "failure": "negotiate_fail"
+        },
+        {
+          "text": "[Flee]",
+          "effects": {
+            "morale": -5
+          },
+          "next": "flee"
+        }
+      ]
+    },
+    "tribute_accepted": {
+      "speaker": "troll",
+      "portrait": "troll_pleased",
+      "text": "Hrmph. You remember the old ways. Pass, small-folk. But return with more next moon.",
+      "effects": {
+        "event_flag": "troll_tribute_paid"
+      },
+      "end": true
+    },
+    "combat_start": {
+      "action": "start_combat",
+      "enemy": "troll",
+      "on_win": "combat_victory",
+      "on_lose": "combat_defeat"
+    },
+    "combat_victory": {
+      "speaker": "narrator",
+      "portrait": null,
+      "text": "The troll falls with a thunderous crash. The mountain path is now safe.",
+      "effects": {
+        "stone": 20,
+        "morale": 10
+      },
+      "end": true
+    },
+    "combat_defeat": {
+      "speaker": "narrator",
+      "portrait": null,
+      "text": "Your warriors fall before the troll's might. The survivors retreat in shame.",
+      "effects": {
+        "population": -3,
+        "morale": -20
+      },
+      "end": true
+    },
+    "negotiate": {
+      "speaker": "troll",
+      "portrait": "troll_thoughtful",
+      "text": "Hmm... you speak well, small-one. Very well. Bring me fresh meat each season, and you may pass.",
+      "effects": {
+        "event_flag": "troll_deal_made"
+      },
+      "end": true
+    },
+    "negotiate_fail": {
+      "speaker": "troll",
+      "portrait": "troll_angry",
+      "text": "Your words are empty! Leave now, or be crushed!",
+      "effects": {
+        "morale": -10
+      },
+      "next": "flee"
+    },
+    "flee": {
+      "speaker": "narrator",
+      "portrait": null,
+      "text": "You retreat from the troll's mountain, seeking another path.",
+      "end": true
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "gnome_encounter",
+  "start_node": "greeting",
+  "nodes": {
+    "greeting": {
+      "speaker": "gnome",
+      "portrait": "gnome_friendly",
+      "text": "Ho there, tall-folk! I am Bramblewick, keeper of the old crafts. Perhaps we can help each other?",
+      "choices": [
+        {
+          "text": "What do you offer, small friend?",
+          "next": "trade_offer"
+        },
+        {
+          "text": "Tell me of the old crafts.",
+          "next": "lore"
+        },
+        {
+          "text": "We must be going.",
+          "next": "farewell"
+        }
+      ]
+    },
+    "trade_offer": {
+      "speaker": "gnome",
+      "portrait": "gnome_merchant",
+      "text": "I have enchanted tools that never dull! For 20 food and 5 mead, they are yours.",
+      "choices": [
+        {
+          "text": "Agreed! Here is the payment.",
+          "requires": {
+            "food": 20,
+            "mead": 5
+          },
+          "effects": {
+            "food": -20,
+            "mead": -5,
+            "enchanted_tools": 1
+          },
+          "next": "trade_complete"
+        },
+        {
+          "text": "Too steep a price. Perhaps another time.",
+          "next": "greeting"
+        }
+      ]
+    },
+    "trade_complete": {
+      "speaker": "gnome",
+      "portrait": "gnome_happy",
+      "text": "A fine trade! May these tools serve you well in the harsh winters ahead.",
+      "effects": {
+        "morale": 5
+      },
+      "end": true
+    },
+    "lore": {
+      "speaker": "gnome",
+      "portrait": "gnome_wise",
+      "text": "Before your kind built longships, we gnomes walked these lands. We knew the secret songs of iron and stone. Some of us still remember...",
+      "effects": {
+        "lore_unlocked": "gnome_history"
+      },
+      "next": "greeting"
+    },
+    "farewell": {
+      "speaker": "gnome",
+      "portrait": "gnome_friendly",
+      "text": "Safe travels, tall-folk. May you find your way home before the snow falls.",
+      "end": true
+    }
+  }
+}

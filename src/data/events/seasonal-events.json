@@ -1,0 +1,44 @@
+{
+  "events": [
+    {
+      "id": "spring_thaw",
+      "title": "Spring Thaw",
+      "description": "The ice melts and life returns to the land.",
+      "season": "spring",
+      "effects": {
+        "morale": 10
+      },
+      "automatic": true
+    },
+    {
+      "id": "summer_warmth",
+      "title": "Summer's Warmth",
+      "description": "Long days and warm nights bring comfort to the village.",
+      "season": "summer",
+      "effects": {
+        "morale": 5
+      },
+      "automatic": true
+    },
+    {
+      "id": "autumn_harvest",
+      "title": "Harvest Season",
+      "description": "Time to gather the fruits of your labor.",
+      "season": "autumn",
+      "effects": {
+        "food": 10
+      },
+      "automatic": true
+    },
+    {
+      "id": "winter_cold",
+      "title": "Winter's Grip",
+      "description": "The cold sets in. Resources will be scarce.",
+      "season": "winter",
+      "effects": {
+        "morale": -5
+      },
+      "automatic": true
+    }
+  ]
+}

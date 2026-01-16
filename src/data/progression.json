@@ -1,0 +1,55 @@
+{
+  "eras": [
+    {
+      "id": "village",
+      "name": "Fishing Village",
+      "description": "A small settlement struggling to survive.",
+      "requirements": {},
+      "unlocks": {
+        "buildings": ["fishing_hut", "lumber_camp", "farm", "storage", "villager_hut", "palisade_wall"],
+        "features": ["basic_fishing", "basic_woodcutting"]
+      }
+    },
+    {
+      "id": "settlement",
+      "name": "Growing Settlement",
+      "description": "Your village has grown into a thriving community.",
+      "requirements": {
+        "population": 20,
+        "buildings": 5
+      },
+      "unlocks": {
+        "buildings": ["longhouse", "mead_hall", "stone_quarry", "blacksmith"],
+        "features": ["trade", "warrior_training"]
+      }
+    },
+    {
+      "id": "town",
+      "name": "Norse Town",
+      "description": "A prosperous town known throughout the region.",
+      "requirements": {
+        "population": 50,
+        "buildings": 15,
+        "longhouse": true
+      },
+      "unlocks": {
+        "buildings": ["temple", "market", "shipyard", "stone_wall"],
+        "features": ["naval_expeditions", "advanced_trade"]
+      }
+    },
+    {
+      "id": "kingdom",
+      "name": "Viking Kingdom",
+      "description": "A mighty kingdom feared and respected by all.",
+      "requirements": {
+        "population": 100,
+        "shipyard": true,
+        "raids_completed": 3
+      },
+      "unlocks": {
+        "buildings": ["great_hall", "fortress", "cathedral"],
+        "features": ["conquest", "diplomacy", "legendary_units"]
+      }
+    }
+  ]
+}
